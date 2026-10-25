@@ -6,6 +6,7 @@
   <title>Super Mario – Cứu Công Chúa</title>
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
   <div id="wrap">
@@ -34,6 +35,48 @@
     <div><button data-k="L">◀</button><button data-k="R">▶</button></div>
     <div><button data-k="F">B</button><button data-k="J">A</button></div>
   </div>
+
+  <!-- Cửa sổ thiệp (phần thưởng của rương) -->
+<div id="cardModal">
+  <div id="cardSizer">
+    <div class="card-container">
+
+      <!-- Bìa thiệp có dấu sáp đỏ -->
+      <div class="card-cover" id="cardCover">
+        <div class="paper-texture">
+          <div class="wax-seal-stamp" id="waxStamp">
+            <span>❤️</span>
+            <div class="stamp-ring">eHub</div>
+          </div>
+          <p class="cover-hint">Chạm để mở thiệp</p>
+        </div>
+      </div>
+
+      <!-- Nội dung bức thư -->
+      <div class="card-inside" id="cardInside">
+        <div class="stamp-photo-frame">
+          <img id="cardPhoto" src="" alt="Tem kỷ niệm" class="stamp-photo">
+        </div>
+
+        <div class="card-content">
+          <div class="half-open-text" id="halfText">
+            <h2 class="salutation" id="toHalf"></h2>
+            <p class="swipe-hint">↑ Vuốt lên hoặc bấm để đọc tiếp thư</p>
+          </div>
+
+          <div class="full-open-text" id="fullText">
+            <h2 class="salutation" id="toFull"></h2>
+            <p class="message-body" id="cardMsg"></p>
+            <div class="signature"><span id="cardSig"></span></div>
+            <button class="close-btn" id="closeBtn">← Đóng thiệp lại</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <button id="again">CHƠI LẠI</button>
+</div>
 
   <script src="script.js"></script>
 </body>

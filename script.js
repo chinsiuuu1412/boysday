@@ -1,11 +1,11 @@
 // ====== CẤU HÌNH NỘI DUNG LANDING PAGE (sửa tại đây) ======
 const CFG = {
-  rewards: [
-    {t: "RƯƠNG VÀNG",   d: "Phần thưởng 1: mô tả ưu đãi / nội dung chính của landing page."},
-    {t: "RƯƠNG BẠC",    d: "Phần thưởng 2: mô tả khóa học, sản phẩm hoặc quà tặng."},
-    {t: "RƯƠNG BÍ ẨN",  d: "Phần thưởng 3: nội dung bất ngờ dành cho người chơi."}
-  ],
-  cta: {text: "NHẬN THƯỞNG", href: "#"}
+  card: {
+    to: "Bùi Thị Thu Ngân",   // người nhận (để "" thì dùng tên người chơi nhập ở màn Start)
+    message: "Chúc bạn một ngày tràn ngập niềm vui, luôn giữ nụ cười tươi trên môi và đạt được mọi điều tuyệt vời nhất trong hành trình sắp tới!",
+    from: "From eHub with love ❤️",
+    photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300"
+  }
 };
 
 // ====== KHAI BÁO CHUNG ======
@@ -50,7 +50,7 @@ function begin() {
   if (AC && AC.state === "suspended") AC.resume();
   nm = ($("nm").value.trim().toUpperCase() || "MARIO").slice(0, 8);
   lives = 3; reset(); S = "play";
-  $("ui").style.display = "none"; $("rw").style.display = "none";
+  $("ui").style.display = "none"; $("cardModal").classList.remove("show");
 }
 
 // ====== CẬP NHẬT (60 lần/giây) ======
@@ -115,12 +115,7 @@ function open(i) {
   snd(500, .2, 1000); tune([784, 988, 1175, 1568]);
   for (let k = 0; k < 28; k++) coins.push({x: CX[i] + 16, y: GY - 16, vx: (Math.random() - .5) * 3, vy: -Math.random() * 4 - 1});
 }
-function showReward() {
-  let r = CFG.rewards[co];
-  $("rt").textContent = r.t; $("rd").textContent = r.d;
-  let a = $("cta"); a.textContent = CFG.cta.text; a.href = CFG.cta.href;
-  $("rw").style.display = "flex";
-}
+
 
 // ====== VẼ (pixel art bằng hình chữ nhật) ======
 const R = (c, x, y, w, h) => { g.fillStyle = c; g.fillRect(x | 0, y | 0, w, h); };
@@ -259,7 +254,51 @@ C.addEventListener("pointerdown", e => {
   }
 });
 $("go").onclick = begin;
-$("again").onclick = () => { $("rw").style.display = "none"; S = "start"; coins = []; $("ui").style.display = "flex"; $("nm").focus(); };
+
+// ====== THIỆP PHẦN THƯỞNG ======
+const cardBox = document.querySelector(".card-container");
+const cardCover = $("cardCover"), halfText = $("halfText"), closeBtn = $("closeBtn"), sizer = $("cardSizer");
+let touchStartY = 0;
+
+// Co thiệp vừa màn hình (thiệp gốc 380x550)
+function fitCard() {
+  const s = Math.min(1, (innerWidth - 24) / 380, (innerHeight - 130) / 550);
+  sizer.style.width = 380 * s + "px";
+  sizer.style.height = 550 * s + "px";
+  cardBox.style.transform = "scale(" + s + ")";
+}
+addEventListener("resize", fitCard);
+
+// Được gọi khi rương mở xong (sau hiệu ứng xu bay)
+function showReward() {
+  const c = CFG.card, who = c.to || nm;
+  $("toHalf").textContent = "Dear " + who + ",...";
+  $("toFull").textContent = "Dear " + who + ",";
+  $("cardMsg").textContent = c.message;
+  $("cardSig").textContent = c.from;
+  $("cardPhoto").src = c.photo;
+  cardBox.classList.remove("state-half", "state-full");   // luôn bắt đầu từ bìa
+  $("cardModal").classList.add("show");
+  fitCard();
+}
+
+// 1. Bìa -> mở nửa
+cardCover.addEventListener("click", () => cardBox.classList.add("state-half"));
+// 2. Mở nửa -> mở hết (bấm hoặc vuốt lên)
+halfText.addEventListener("click", () => cardBox.classList.add("state-full"));
+cardBox.addEventListener("touchstart", e => { touchStartY = e.touches[0].clientY; });
+cardBox.addEventListener("touchend", e => {
+  if (cardBox.classList.contains("state-half") && !cardBox.classList.contains("state-full")
+      && touchStartY - e.changedTouches[0].clientY > 40) cardBox.classList.add("state-full");
+});
+// 3. Đóng thiệp lại
+closeBtn.addEventListener("click", e => { e.stopPropagation(); cardBox.classList.remove("state-half", "state-full"); });
+
+$("again").onclick = () => {
+  $("cardModal").classList.remove("show");
+  S = "start"; coins = [];
+  $("ui").style.display = "flex"; $("nm").focus();
+};
 
 // ====== VÒNG LẶP GAME ======
 const hints = {
