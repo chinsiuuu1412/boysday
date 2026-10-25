@@ -1,7 +1,7 @@
 // ====== CẤU HÌNH NỘI DUNG LANDING PAGE (sửa tại đây) ======
 const CFG = {
   card: {
-    to: "Bùi Thị Thu Ngân",   // người nhận (để "" thì dùng tên người chơi nhập ở màn Start)
+    to: "Nguyễn ABC",   // người nhận (để "" thì dùng tên người chơi nhập ở màn Start)
     message: "Chúc bạn một ngày tràn ngập niềm vui, luôn giữ nụ cười tươi trên môi và đạt được mọi điều tuyệt vời nhất trong hành trình sắp tới!",
     from: "From eHub with love ❤️",
     photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300"
