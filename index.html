@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Super Mario – Cứu Công Chúa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="wrap">
+    <canvas id="c" width="256" height="240"></canvas>
+
+    <!-- Màn hình nhập tên -->
+    <div class="ov" id="ui">
+      <div>NHẬP TÊN</div>
+      <input id="nm" maxlength="8" placeholder="MARIO" autocomplete="off">
+      <button id="go">START</button>
+    </div>
+
+    <!-- Bảng phần thưởng sau khi mở rương -->
+    <div class="ov" id="rw">
+      <h2 id="rt"></h2>
+      <p id="rd"></p>
+      <a class="btn" id="cta"></a>
+      <button id="again">CHƠI LẠI</button>
+    </div>
+  </div>
+
+  <div id="hint"></div>
+
+  <!-- Nút điều khiển trên điện thoại -->
+  <div id="pad">
+    <div><button data-k="L">◀</button><button data-k="R">▶</button></div>
+    <div><button data-k="F">B</button><button data-k="J">A</button></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
