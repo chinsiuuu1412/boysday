@@ -12,12 +12,20 @@
   <div id="wrap">
     <canvas id="c" width="256" height="240"></canvas>
 
-    <!-- Màn hình nhập tên -->
-    <div class="ov" id="ui">
-      <div>NHẬP TÊN</div>
-      <input id="nm" maxlength="8" placeholder="MARIO" autocomplete="off">
-      <button id="go">START</button>
-    </div>
+    <!-- Màn nhập: chọn ban + tên -->
+<div class="ov" id="ui">
+  <select id="ban"><option value="">Chọn ban của bạn</option></select>
+  <input id="nm" maxlength="40" placeholder="Tên của bạn" autocomplete="off" autocapitalize="off" spellcheck="false">
+  <button id="go">START</button>
+  <div id="err"></div>
+</div>
+
+<!-- Hỏi xác nhận / chọn đúng người khi tên trùng hoặc gõ gần đúng -->
+<div class="ov" id="pick">
+  <h3 id="pickT"></h3>
+  <div id="pickL"></div>
+  <button id="pickBack">NHẬP LẠI</button>
+</div>
 
     <!-- Bảng phần thưởng sau khi mở rương -->
     <div class="ov" id="rw">
@@ -68,7 +76,10 @@
             <h2 class="salutation" id="toFull"></h2>
             <p class="message-body" id="cardMsg"></p>
             <div class="signature"><span id="cardSig"></span></div>
-            <button class="close-btn" id="closeBtn">← Đóng thiệp lại</button>
+            <div class="card-actions">
+                <button class="close-btn" id="closeBtn">← Đóng thiệp lại</button>
+                <button class="dl-btn" id="dlBtn">⬇ Tải thiệp (PNG)</button>
+            </div>
           </div>
         </div>
       </div>
@@ -77,7 +88,7 @@
   </div>
   <button id="again">CHƠI LẠI</button>
 </div>
-
+  <script src="people.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

@@ -39,14 +39,32 @@ canvas{
   flex-direction:column; align-items:center; gap:2.2cqw;
   font-size:3cqw; text-align:center; color:#fff;
 }
-#ui{top:50%}
 
-input{
-  font:inherit; font-size:3.4cqw; width:40cqw; padding:1.6cqw; text-align:center;
-  background:#000; color:#fff; border:.8cqw solid #fff;
-  text-transform:uppercase; outline:none;
+#ui{top:47%; gap:1.8cqw}
+
+input, select{
+  font:inherit; font-size:3cqw; width:56cqw; padding:1.5cqw; text-align:center;
+  background:#000; color:#fff; border:.8cqw solid #fff; outline:none;
 }
-input:focus{border-color:#fcd800}
+select{text-align-last:center; cursor:pointer}
+input:focus, select:focus{border-color:#fcd800}
+
+#err{
+  font-family:system-ui,sans-serif; font-size:3cqw; line-height:1.4;
+  max-width:84cqw; min-height:2.8em; color:#fff; opacity:.85;
+}
+#err.bad{color:#fcd800; opacity:1}
+
+/* Hộp xác nhận / chọn người */
+#pick{
+  inset:0; justify-content:center; padding:6cqw;
+  background:rgba(0,0,0,.88);
+  font-family:system-ui,sans-serif; font-size:3.4cqw; line-height:1.5;
+}
+#pick h3{font-size:3.8cqw; font-weight:600; max-width:80cqw}
+#pickL{display:flex; flex-direction:column; gap:2cqw; width:min(72cqw,100%)}
+#pickL button{font-family:system-ui,sans-serif; font-size:3.4cqw; padding:2cqw}
+#pickL small{display:block; opacity:.8; font-size:2.8cqw}
 
 button,.btn{
   font:inherit; font-size:3.2cqw; padding:1.8cqw 3.4cqw;
@@ -301,3 +319,10 @@ button:active{transform:translateY(1px)}
   opacity: 1;
   transform: translateY(0);
 }
+
+.card-actions{display:flex; justify-content:space-between; align-items:center; gap:10px}
+.dl-btn{
+  background:#b8324b; color:#fff; border:none; border-radius:6px; box-shadow:none;
+  padding:9px 13px; font:600 13px system-ui,sans-serif; cursor:pointer;
+}
+.dl-btn:disabled{opacity:.6; cursor:wait}

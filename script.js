@@ -1,12 +1,5 @@
 // ====== CẤU HÌNH NỘI DUNG LANDING PAGE (sửa tại đây) ======
-const CFG = {
-  card: {
-    to: "Nguyễn ABC",   // người nhận (để "" thì dùng tên người chơi nhập ở màn Start)
-    message: "Chúc bạn một ngày tràn ngập niềm vui, luôn giữ nụ cười tươi trên môi và đạt được mọi điều tuyệt vời nhất trong hành trình sắp tới!",
-    from: "From eHub with love ❤️",
-    photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300"
-  }
-};
+
 
 // ====== KHAI BÁO CHUNG ======
 const $ = i => document.getElementById(i), C = $("c"), g = C.getContext("2d");
@@ -48,9 +41,9 @@ function die() { lives--; snd(200, .5, 60); if (lives <= 0) S = "over"; else res
 function win() { S = "win"; fb = []; fl = []; tune([523, 659, 784, 1047, 784, 1047, 1319]); }
 function begin() {
   if (AC && AC.state === "suspended") AC.resume();
-  nm = ($("nm").value.trim().toUpperCase() || "MARIO").slice(0, 8);
   lives = 3; reset(); S = "play";
-  $("ui").style.display = "none"; $("cardModal").classList.remove("show");
+  $("ui").style.display = "none"; $("pick").style.display = "none";
+  $("cardModal").classList.remove("show");
 }
 
 // ====== CẬP NHẬT (60 lần/giây) ======
@@ -161,7 +154,7 @@ function chest(i) {
 
 function drawStart() {
   R("#9290ff", 0, 0, W, H);
-  TX($("nm").value.toUpperCase() || "MARIO", 70, 18, "#fff"); TX("WORLD", 134, 18, "#fff");
+  TX(strip($("nm").value).toUpperCase().slice(0, 8) || "MARIO", 70, 18, "#fff");
   TX("8-4", 142, 28, "#fff"); TX("TIME", 176, 18, "#fff"); TX("000000", 70, 28, "#fff");
   R("#000", 78, 42, 104, 52); R("#984e00", 76, 40, 104, 52);
   TX("SUPER", 82, 64, "#000", "left", 16); TX("SUPER", 80, 62, "#ffccc5", "left", 16);
@@ -226,7 +219,7 @@ function draw() {
 // ====== ĐIỀU KHIỂN ======
 const map = {ArrowLeft: "L", a: "L", A: "L", ArrowRight: "R", d: "R", D: "R", ArrowUp: "J", w: "J", W: "J", " ": "J", x: "F", X: "F", j: "F", J: "F", k: "F"};
 addEventListener("keydown", e => {
-  if (e.target.tagName === "INPUT") { if (e.key === "Enter") begin(); return; }
+  if (["INPUT", "SELECT"].includes(e.target.tagName)) { if (e.key === "Enter") submit(); return; }
   let k = map[e.key];
   if (k) { e.preventDefault(); K[k] = 1; if (k === "F" && !e.repeat) K.fp = 1; }
   if (e.key === "Enter") { if (S === "over") begin(); else if (S === "chest") K.ep = 1; }
@@ -253,56 +246,190 @@ C.addEventListener("pointerdown", e => {
     CX.forEach((cx, i) => { if (x > cx - 10 && x < cx + 42 && y > GY - 50 && y < GY + 10) open(i); });
   }
 });
-$("go").onclick = begin;
 
-// ====== THIỆP PHẦN THƯỞNG ======
+
+// ====== NHẬN DIỆN NGƯỜI CHƠI ======
+let P = null; // người chơi hiện tại (một phần tử của ROSTER)
+const TIP = "Gõ không dấu, không viết hoa, chỉ tên riêng hoặc đệm + tên đều được.";
+
+const strip = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D");
+const norm = s => strip(s).toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+function lev(a, b) { // khoảng cách chỉnh sửa (đếm số ký tự gõ sai)
+  const d = Array.from({length: a.length + 1}, (_, i) => [i]);
+  for (let j = 1; j <= b.length; j++) d[0][j] = j;
+  for (let i = 1; i <= a.length; i++) for (let j = 1; j <= b.length; j++)
+    d[i][j] = Math.min(d[i-1][j] + 1, d[i][j-1] + 1, d[i-1][j-1] + (a[i-1] === b[j-1] ? 0 : 1));
+  return d[a.length][b.length];
+}
+// Điểm khớp: càng cao càng chắc chắn
+function score(pt, qt) {
+  const p = pt.join(" "), q = qt.join(" ");
+  if (p === q) return 100;                                  // đúng họ tên đầy đủ
+  if (p.endsWith(" " + q)) return 80;                       // tên riêng hoặc đệm + tên
+  if ((" " + p + " ").includes(" " + q + " ")) return 60;   // cụm từ liên tiếp bất kỳ
+  if (qt.every(t => pt.includes(t))) return 40;             // đủ các từ, khác thứ tự (vd: họ + tên)
+  const suf = pt.slice(-qt.length).join(" ");               // gõ sai 1-2 ký tự
+  if (q.length >= 3 && lev(q, suf) <= (q.length >= 8 ? 2 : 1)) return 20;
+  return 0;
+}
+function find(list, raw) {
+  const qt = norm(raw).split(" ").filter(Boolean);
+  if (!qt.length) return {best: 0, list: []};
+  const sc = list.map(p => ({p, s: score(p._t, qt)})).filter(x => x.s > 0);
+  const best = Math.max(0, ...sc.map(x => x.s));
+  return {best, list: sc.filter(x => x.s === best).map(x => x.p)};
+}
+
+ROSTER.forEach(p => p._t = norm(p.name).split(" "));
+BANS.forEach(b => $("ban").add(new Option(b, b)));
+$("err").textContent = TIP;
+$("nm").oninput = $("ban").onchange = () => { $("err").className = ""; $("err").textContent = TIP; };
+
+function err(t) { const e = $("err"); e.textContent = t; e.className = "bad"; }
+
+function submit() {
+  const ban = $("ban").value, raw = $("nm").value;
+  if (!ban) return err("Vui lòng chọn ban trước.");
+  if (!norm(raw)) return err("Vui lòng nhập tên của bạn.");
+  const r = find(ROSTER.filter(p => p.ban === ban), raw);
+  if (r.list.length === 1 && r.best === 100) return enter(r.list[0]);       // khớp chính xác họ tên: vào luôn
+  if (r.list.length) return askPick(r.list, "Có phải bạn là…?");           // trùng tên / gõ thiếu / gần đúng
+  const o = find(ROSTER, raw);                                              // không có trong ban này: thử các ban khác
+  if (o.list.length) return askPick(o.list, "Không thấy trong Ban " + ban + ". Có phải bạn chọn nhầm ban?");
+  err("Không tìm thấy “" + raw.trim() + "” trong Ban " + ban + ". Hãy kiểm tra lại ban và chính tả.");
+}
+function askPick(list, title) {
+  $("pickT").textContent = title;
+  const box = $("pickL"); box.innerHTML = "";
+  list.slice(0, 6).forEach(p => {
+    const b = document.createElement("button"), n = document.createElement("span"), s = document.createElement("small");
+    n.textContent = p.name; s.textContent = "Ban " + p.ban; b.append(n, s);
+    b.onclick = () => enter(p); box.append(b);
+  });
+  $("pick").style.display = "flex";
+}
+function enter(p) {
+  P = p;
+  nm = strip(p.name.trim().split(/\s+/).pop()).toUpperCase().slice(0, 8); // tên riêng không dấu cho HUD và lời thoại
+  begin();
+}
+$("go").onclick = submit;
+$("pickBack").onclick = () => { $("pick").style.display = "none"; $("nm").focus(); };
+$("again").onclick = () => {
+  $("cardModal").classList.remove("show");
+  S = "start"; coins = []; P = null; $("nm").value = "";
+  $("ui").style.display = "flex"; $("nm").focus();
+};
+
+// ====== THIỆP PHẦN THƯỞNG (cá nhân hóa) ======
 const cardBox = document.querySelector(".card-container");
 const cardCover = $("cardCover"), halfText = $("halfText"), closeBtn = $("closeBtn"), sizer = $("cardSizer");
 let touchStartY = 0;
 
-// Co thiệp vừa màn hình (thiệp gốc 380x550)
 function fitCard() {
   const s = Math.min(1, (innerWidth - 24) / 380, (innerHeight - 130) / 550);
-  sizer.style.width = 380 * s + "px";
-  sizer.style.height = 550 * s + "px";
+  sizer.style.width = 380 * s + "px"; sizer.style.height = 550 * s + "px";
   cardBox.style.transform = "scale(" + s + ")";
 }
 addEventListener("resize", fitCard);
 
-// Được gọi khi rương mở xong (sau hiệu ứng xu bay)
-function showReward() {
-  const c = CFG.card, who = c.to || nm;
-  $("toHalf").textContent = "Dear " + who + ",...";
-  $("toFull").textContent = "Dear " + who + ",";
-  $("cardMsg").textContent = c.message;
-  $("cardSig").textContent = c.from;
-  $("cardPhoto").src = c.photo;
-  cardBox.classList.remove("state-half", "state-full");   // luôn bắt đầu từ bìa
+function showReward() {                       // gọi khi rương mở xong
+  $("toHalf").textContent = "Dear " + P.name + ",...";
+  $("toFull").textContent = "Dear " + P.name + ",";
+  $("cardMsg").textContent = P.msg || DEFAULT_MSG;
+  $("cardSig").textContent = P.from || DEFAULT_FROM;
+  $("cardPhoto").src = P.photo || DEFAULT_PHOTO;
+  cardBox.classList.remove("state-half", "state-full");
   $("cardModal").classList.add("show");
   fitCard();
 }
-
-// 1. Bìa -> mở nửa
 cardCover.addEventListener("click", () => cardBox.classList.add("state-half"));
-// 2. Mở nửa -> mở hết (bấm hoặc vuốt lên)
 halfText.addEventListener("click", () => cardBox.classList.add("state-full"));
 cardBox.addEventListener("touchstart", e => { touchStartY = e.touches[0].clientY; });
 cardBox.addEventListener("touchend", e => {
   if (cardBox.classList.contains("state-half") && !cardBox.classList.contains("state-full")
       && touchStartY - e.changedTouches[0].clientY > 40) cardBox.classList.add("state-full");
 });
-// 3. Đóng thiệp lại
 closeBtn.addEventListener("click", e => { e.stopPropagation(); cardBox.classList.remove("state-half", "state-full"); });
 
-$("again").onclick = () => {
-  $("cardModal").classList.remove("show");
-  S = "start"; coins = [];
-  $("ui").style.display = "flex"; $("nm").focus();
-};
+// ====== TẢI THIỆP DẠNG PNG (vẽ lại bằng canvas, 760x1100) ======
+function rr(q, x, y, w, h, r) {
+  q.beginPath(); q.moveTo(x + r, y); q.arcTo(x + w, y, x + w, y + h, r); q.arcTo(x + w, y + h, x, y + h, r);
+  q.arcTo(x, y + h, x, y, r); q.arcTo(x, y, x + w, y, r); q.closePath();
+}
+function wrapText(q, t, w) {
+  const out = [];
+  t.split("\n").forEach(par => {
+    let line = "";
+    par.split(/\s+/).forEach(word => {
+      const test = line ? line + " " + word : word;
+      if (q.measureText(test).width > w && line) { out.push(line); line = word; } else line = test;
+    });
+    out.push(line);
+  });
+  return out;
+}
+function loadImg(src) { // thử có CORS trước, lỗi thì thử lại không CORS
+  return new Promise(res => {
+    const t = cors => {
+      const i = new Image(); if (cors) i.crossOrigin = "anonymous";
+      i.onload = () => res(i); i.onerror = () => cors ? t(false) : res(null); i.src = src;
+    };
+    t(true);
+  });
+}
+async function downloadCard() {
+  const btn = $("dlBtn"); btn.disabled = true; btn.textContent = "Đang tạo ảnh…";
+  try {
+    await Promise.all([document.fonts.load("700 24px Caveat"), document.fonts.load("500 18px Caveat")]);
+    const img = await loadImg(P.photo || DEFAULT_PHOTO);
+    const c = document.createElement("canvas"); c.width = 760; c.height = 1100;
+    const q = c.getContext("2d"); q.scale(2, 2);
+
+    rr(q, .5, .5, 379, 549, 12); q.fillStyle = "#fbf9f4"; q.fill(); q.strokeStyle = "#e3decb"; q.stroke();
+
+    // tem ảnh góc trên bên phải, xoay 4°
+    q.save(); q.translate(322.5, 67.5); q.rotate(4 * Math.PI / 180);
+    q.shadowColor = "rgba(0,0,0,.12)"; q.shadowBlur = 10; q.shadowOffsetY = 4;
+    q.fillStyle = "#fff"; q.fillRect(-37.5, -47.5, 75, 95);
+    q.shadowColor = "transparent"; q.strokeStyle = "#e0d8c3"; q.strokeRect(-37.5, -47.5, 75, 95);
+    const fx = -32.5, fy = -42.5, fw = 65, fh = 75;
+    if (img) {
+      const k = Math.max(fw / img.width, fh / img.height), sw = fw / k, sh = fh / k;
+      q.drawImage(img, (img.width - sw) / 2, (img.height - sh) / 2, sw, sh, fx, fy, fw, fh);
+    } else { q.fillStyle = "#e9e2d0"; q.fillRect(fx, fy, fw, fh); }
+    q.restore();
+
+    // chữ
+    q.textBaseline = "top"; q.textAlign = "left";
+    q.fillStyle = "#2c2a29"; q.font = "700 24px Caveat, cursive";
+    q.fillText("Dear " + P.name + ",", 30, 130);
+
+    const msg = P.msg || DEFAULT_MSG; let fs = 18, lines;
+    for (; fs >= 12; fs--) {                 // lời chúc dài thì tự thu nhỏ chữ cho vừa thiệp
+      q.font = "500 " + fs + "px Caveat, cursive"; lines = wrapText(q, msg, 320);
+      if (175 + lines.length * fs * 1.6 <= 450) break;
+    }
+    q.fillStyle = "#4a453f";
+    lines.forEach((l, i) => q.fillText(l, 30, 175 + i * fs * 1.6));
+
+    q.fillStyle = "#b8324b"; q.font = "500 20px Caveat, cursive"; q.textAlign = "right";
+    q.fillText(P.from || DEFAULT_FROM, 350, 175 + lines.length * fs * 1.6 + 25);
+
+    const slug = strip(P.name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    c.toBlob(b => {
+      const a = document.createElement("a"); a.href = URL.createObjectURL(b); a.download = "thiep-" + slug + ".png"; a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    }, "image/png");
+  } catch (e) {
+    alert("Không tạo được ảnh. Hãy chạy trang qua máy chủ web/hosting (không mở trực tiếp file://) và để ảnh cùng tên miền hoặc nơi cho phép tải ảnh chéo (CORS).");
+  } finally { btn.disabled = false; btn.textContent = "⬇ Tải thiệp (PNG)"; }
+}
+$("dlBtn").addEventListener("click", e => { e.stopPropagation(); downloadCard(); });
 
 // ====== VÒNG LẶP GAME ======
 const hints = {
-  start: "Nhập tên của bạn rồi bấm START để vào lâu đài cuối cùng.",
+  start: "Nhập tên và chọn ban của bạn rồi bấm START để nhận được phần quà bí ẩn.",
   play:  "← → di chuyển · Space/↑ nhảy · X bắn lửa (5 phát hạ Bowser) · hoặc chạy qua dưới Bowser để chạm rìu!",
   win:   "Bowser sụp đổ xuống dung nham…",
   chest: "Chọn một rương: bấm vào rương, hoặc ← → rồi Enter (phím 1/2/3).",
