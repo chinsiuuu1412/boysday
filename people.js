@@ -1,5 +1,5 @@
 // ====== DANH SÁCH NGƯỜI NHẬN THIỆP ======
-const BANS = ["Chuyên môn", "Tài chính", "Sự kiện", "Truyền thông", "Điều hành"];
+const BANS = ["Điều hành", "Chuyên môn", "Tài chính", "Sự kiện", "Truyền thông"];
 
 // Dùng khi một người không có ảnh / lời chúc / chữ ký riêng
 const DEFAULT_PHOTO = "photos/default.jpg";
