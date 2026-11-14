@@ -170,6 +170,11 @@ function drawStart() {
   }
   mario(36, 192, 1, 0, 1);
 }
+
+  while (acc >= 16.67) { upd(); acc -= 16.67; }
+  applyCam();
+  draw();
+
 function draw() {
   g.clearRect(0, 0, W, H);
   if (S === "start") { drawStart(); return; }
@@ -200,15 +205,17 @@ function draw() {
     mario(m.x, m.y, m.dir, m.vx, m.on);
     if (pr) {                                                     // lời thoại công chúa (gõ từng chữ)
       princess(230, GY - 24);
-      let s = ("THANK YOU " + nm + "!   YOUR QUEST IS OVER.").slice(0, mt / 3 | 0);
-      TX(s.slice(0, 13 + nm.length), W / 2, 60, "#fff", "center");
-      TX(s.slice(13 + nm.length + 3), W / 2, 76, "#fff", "center");
+      const l1 = "THANK YOU " + nm + "!", l2 = "YOUR QUEST IS OVER.", n = mt / 3 | 0, cx = cam + VW / 2;
+      TX(l1.slice(0, n), cx - l1.length * 4, 60, "#fff");
+      TX(l2.slice(0, Math.max(0, n - l1.length)), cx - l2.length * 4, 76, "#fff");
     }
   }
   coins.forEach(c => { R("#fcd800", c.x, c.y, 4, 4); R("#fff", c.x, c.y, 1, 1); });
   // HUD
-  TX(nm, 8, 30, "#fff"); TX("x" + lives, 8, 40, "#fff"); TX("WORLD 8-4", W - 8, 30, "#fff", "right");
-  if (!chs) { TX("BOWSER", 120, 30, "#fff"); for (let i = 0; i < 5; i++) R(i < b.hp ? "#f83800" : "#444", 120 + i * 10, 34, 8, 5); }
+  const hx = Math.round(cam), hr = hx + VW - 8;
+  TX(nm, hx + 8, 30, "#fff", "left", 10); TX("WORLD 8-4", hr, 30, "#fff", "right", 10);
+  TX("x" + lives, hx + 8, 44, "#fff", "left", 10);
+  if (!chs) { TX("BOWSER", hr, 44, "#fff", "right", 10); for (let i = 0; i < 5; i++) R(i < b.hp ? "#f83800" : "#444", hr - 58 + i * 12, 48, 10, 6); }
   if (S === "over") {
     R("rgba(0,0,0,.7)", 0, 0, W, H);
     TX("GAME OVER", W / 2, 110, "#f83800", "center", 16);
@@ -250,7 +257,7 @@ C.addEventListener("pointerdown", e => {
 
 // ====== NHẬN DIỆN NGƯỜI CHƠI ======
 let P = null; // người chơi hiện tại (một phần tử của ROSTER)
-const TIP = "Gõ không dấu, không viết hoa, chỉ tên riêng hoặc đệm + tên đều được.";
+const TIP = "Gõ đầy đủ họ tên.";
 
 const strip = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D");
 const norm = s => strip(s).toLowerCase().replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
@@ -357,8 +364,9 @@ function fade(to, done) {
     else bgm.volume = Math.min(1, Math.max(0, bgm.volume + Math.sign(d) * .03));
   }, 50);
 }
-function musicOn()  { bgm.currentTime = 0; bgm.play().then(() => fade(.6)).catch(() => {}); }
-function musicOff() { fade(0, () => bgm.pause()); }
+const volOK = (() => { const a = new Audio(); a.volume = .5; return a.volume === .5; })();
+function musicOn()  { bgm.currentTime = 0; bgm.play().then(() => { if (volOK) fade(.6); }).catch(() => {}); }
+function musicOff() { if (volOK) fade(0, () => bgm.pause()); else bgm.pause(); }
 muteBtn.onclick = () => { bgm.muted = !bgm.muted; muteBtn.textContent = bgm.muted ? "🔇" : "🔊"; };
 
 cardCover.addEventListener("click", () => {
@@ -453,12 +461,27 @@ async function downloadCard() {
 }
 $("dlBtn").addEventListener("click", e => { e.stopPropagation(); downloadCard(); });
 
+// ====== CAMERA CHO ĐIỆN THOẠI DỌC ======
+const mq = matchMedia("(max-width:600px) and (orientation:portrait)");
+let cam = 32, VW = 256;                        // cam: mép trái vùng đang nhìn; VW: bề rộng vùng nhìn
+function applyCam() {
+  if (!mq.matches) { cam = 0; VW = 256; C.style.transform = ""; return; }
+  VW = 192;
+  const target = (S === "play" || S === "win") ? Math.max(0, Math.min(64, m.x + 6 - VW / 2)) : 32;
+  cam += (target - cam) * .15;                 // camera chạy mượt
+  C.style.transform = "translateX(" + (-cam / 256 * 100) + "%)";
+}
+
 // ====== VÒNG LẶP GAME ======
 const hints = {
   start: "Nhập tên và chọn ban của bạn rồi bấm START để nhận được phần quà bí ẩn.",
-  play:  "← → di chuyển · Space/↑ nhảy · X bắn lửa (5 phát hạ Bowser) · hoặc chạy qua dưới Bowser để chạm rìu!",
+  play:  matchMedia("(pointer:coarse)").matches
+  ? "◀ ▶ di chuyển · A nhảy · B bắn lửa (5 phát hạ Bowser) · hoặc chạy qua dưới Bowser để chạm rìu!"
+  : "← → di chuyển · Space/↑ nhảy · X bắn lửa (5 phát hạ Bowser) · hoặc chạy qua dưới Bowser để chạm rìu!",
   win:   "Bowser sụp đổ xuống dung nham…",
-  chest: "Chọn một rương: bấm vào rương, hoặc ← → rồi Enter (phím 1/2/3).",
+  chest: matchMedia("(pointer:coarse)").matches
+  ? "Chạm vào một rương để mở."
+  : "Chọn một rương: bấm vào rương, hoặc ← → rồi Enter (phím 1/2/3).",
   over:  "Bạn đã hết mạng. Bấm Enter hoặc chạm màn hình để thử lại."
 };
 let ls = "";
