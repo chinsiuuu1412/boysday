@@ -171,10 +171,6 @@ function drawStart() {
   mario(36, 192, 1, 0, 1);
 }
 
-  while (acc >= 16.67) { upd(); acc -= 16.67; }
-  applyCam();
-  draw();
-
 function draw() {
   g.clearRect(0, 0, W, H);
   if (S === "start") { drawStart(); return; }
@@ -489,7 +485,8 @@ reset(); $("ui").style.display = "flex";
 let last = performance.now(), acc = 0;
 (function loop(ts) {
   acc += Math.min(ts - last, 100); last = ts;
-  while (acc >= 16.67) { upd(); acc -= 16.67; }      // bước cố định 60 FPS
+  while (acc >= 16.67) { upd(); acc -= 16.67; }
+  applyCam();
   draw();
   if (ls !== S) { ls = S; $("hint").textContent = hints[S] || ""; }
   requestAnimationFrame(loop);
