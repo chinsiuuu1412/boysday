@@ -43,7 +43,7 @@ const ROSTER = [
   {ban: "Chuyên môn", name: "Trần Hữu Đăng Trường", photo: "photos/dang-truong.jpg", msg: "Cảm ơn Trường vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
   {ban: "Chuyên môn", name: "Trần Văn Giáp", photo: "photos/van-giap.jpg", msg: "Cảm ơn Giáp vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
   {ban: "Chuyên môn", name: "Đỗ Minh Quang", photo: "photos/minh-quang.jpg", msg: "Cảm ơn Quang vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Chuyên môn", name: "Nguyễn Ánh Ngọc", photo: "photos/anh-ngoc.jpg", msg: "Cảm ơn Ngọc vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Chuyên môn", name: "Nguyễn Ánh Ngọc", photo: "anhngoc.jpg", msg: "Cảm ơn Ngọc vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
 
   
   {ban: "Tài chính", name: "Nguyễn Khánh Vi",    photo: "photos/khanh-vi.jpg",   msg: "Cảm ơn Vi đã giữ cho mọi con số luôn chính xác. Chúc bạn một năm bình an!"},
