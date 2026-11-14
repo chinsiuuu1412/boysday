@@ -344,6 +344,23 @@ function showReward() {                       // gọi khi rương mở xong
   $("cardModal").classList.add("show");
   fitCard();
 }
+
+// ====== NHẠC KHI MỞ THIỆP ======
+const bgm = $("bgMusic"), muteBtn = $("muteBtn");
+bgm.volume = 0;
+let fadeT, openT;
+function fade(to, done) {
+  clearInterval(fadeT);
+  fadeT = setInterval(() => {
+    const d = to - bgm.volume;
+    if (Math.abs(d) < .03) { bgm.volume = to; clearInterval(fadeT); if (done) done(); }
+    else bgm.volume = Math.min(1, Math.max(0, bgm.volume + Math.sign(d) * .03));
+  }, 50);
+}
+function musicOn()  { bgm.currentTime = 0; bgm.play().then(() => fade(.6)).catch(() => {}); }
+function musicOff() { fade(0, () => bgm.pause()); }
+muteBtn.onclick = () => { bgm.muted = !bgm.muted; muteBtn.textContent = bgm.muted ? "🔇" : "🔊"; };
+
 cardCover.addEventListener("click", () => {
   if (cardBox.classList.contains("state-open")) return;
   cardBox.classList.add("state-open");                       // nắp mở, thư nhô lên

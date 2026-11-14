@@ -304,3 +304,9 @@ button:active{transform:translateY(1px)}
 :root{--vi:"Be Vietnam Pro",system-ui,sans-serif}
 input,select,#err,#pick,#pickL button,#pickBack,#again,#hint,
 .cover-hint,.swipe-hint,.close-btn,.dl-btn{font-family:var(--vi)}
+
+#muteBtn{
+  position:absolute; top:calc(12px + env(safe-area-inset-top,0px)); right:12px;
+  width:44px; height:44px; padding:0; border:none; border-radius:50%;
+  font-size:18px; background:rgba(255,255,255,.18); box-shadow:none;
+}
