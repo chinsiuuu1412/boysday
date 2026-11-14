@@ -74,14 +74,6 @@ button,.btn{
 }
 button:active{transform:translateY(1px)}
 
-#rw{
-  inset:0; top:0; bottom:0; justify-content:center;
-  background:rgba(0,0,0,.82); padding:6cqw;
-  font-family:system-ui,sans-serif; font-size:3.4cqw; line-height:1.5;
-}
-#rw h2{font-family:"Press Start 2P",monospace; font-size:4.2cqw; color:#fcd800; margin:0; line-height:1.5}
-#rw p{margin:0; max-width:80cqw}
-
 #hint{
   font-family:system-ui,sans-serif; font-size:13px; opacity:.9;
   text-align:center; max-width:640px; min-height:1.4em;
@@ -122,84 +114,60 @@ button:active{transform:translateY(1px)}
   overflow:hidden; border:1px solid #e3decb;
 }
 
-/* ================= TRẠNG THÁI 1: BÌA THIỆP ================= */
-.card-cover {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: #f7f3ed;
-  background-image: radial-gradient(#dcd5c1 1px, transparent 1px);
-  background-size: 16px 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.5s ease;
-  z-index: 10;
+/* ================= TRẠNG THÁI 1: PHONG BÌ ================= */
+.card-container{
+  background-color:#f7f3ed;
+  background-image:radial-gradient(#dcd5c1 1px,transparent 1px);
+  background-size:16px 16px;
 }
+/* .card-cover KHÔNG có z-index/transform để lá thư chen được vào giữa các lớp phong bì */
+.card-cover{position:absolute; inset:0; cursor:pointer}
 
-.paper-texture {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+.env-back,.env-front,.env-flap{position:absolute; left:20px; top:250px; width:340px}
+.env-back{
+  height:240px; z-index:1; background:#f1e9d8; border:1px solid #dcd2b8;
+  border-radius:4px; box-shadow:0 8px 18px rgba(0,0,0,.15);
 }
-
-/* Con dấu sáp đỏ */
-.wax-seal-stamp {
-  width: 80px;
-  height: 80px;
-  background: #b8324b;
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  box-shadow: 0 6px 15px rgba(184, 50, 75, 0.35);
-  border: 3px dashed rgba(255, 255, 255, 0.5);
-  transition: transform 0.3s ease;
+.env-front{
+  height:240px; z-index:3; background:#e8dec8;
+  clip-path:polygon(0 0,50% 50%,100% 0,100% 100%,0 100%);   /* mặt trước có khe chữ V */
 }
-
-.wax-seal-stamp:hover {
-  transform: scale(1.05);
+.env-flap{
+  height:120px; z-index:4; background:linear-gradient(#efe6d3,#e0d4b8);
+  clip-path:polygon(0 0,100% 0,50% 100%);                    /* nắp tam giác */
+  transform-origin:50% 0;
+  transition:transform .7s cubic-bezier(.4,0,.2,1), z-index 0s .35s, opacity .6s ease;
 }
+.env-back,.env-front{transition:opacity .6s ease, transform .9s cubic-bezier(.22,1,.36,1)}
 
-.stamp-ring {
-  font-size: 11px;
-  letter-spacing: 1px;
-  font-weight: bold;
-  text-transform: uppercase;
+/* Dấu sáp nằm ở chóp nắp */
+.wax-seal-stamp{
+  position:absolute; left:50%; top:370px; z-index:5;
+  transform:translate(-50%,-50%);
+  width:68px; height:68px; background:#b8324b; border-radius:50%;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  color:#fff; box-shadow:0 6px 15px rgba(184,50,75,.35);
+  border:3px dashed rgba(255,255,255,.5);
+  transition:transform .35s ease, opacity .3s ease;
 }
+.card-container:not(.state-open) .wax-seal-stamp:hover{transform:translate(-50%,-50%) scale(1.08)}
+.stamp-ring{font-size:11px; letter-spacing:1px; font-weight:bold; text-transform:none}  /* giữ nguyên chữ thường: o365 */
 
-.cover-hint {
-  margin-top: 25px;
-  font-size: 14px;
-  color: #8c8270;
-  font-family: sans-serif;
-  letter-spacing: 0.5px;
+.cover-hint{
+  position:absolute; left:0; right:0; bottom:28px; z-index:5; text-align:center;
+  font-size:14px; color:#8c8270; letter-spacing:.5px; transition:opacity .3s ease;
 }
 
 /* ================= TRẠNG THÁI NỘI DUNG BÊN TRONG ================= */
-.card-inside {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #fbf9f4;
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s ease;
-  z-index: 5;
+.card-inside{
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  background:#fbf9f4; border-radius:12px;
+  padding:30px; display:flex; flex-direction:column; justify-content:space-between;
+  opacity:0; pointer-events:none; z-index:2;
+  transform-origin:50% 100%;
+  transform:translateY(-70px) scale(.4);
+  box-shadow:0 6px 20px rgba(0,0,0,.18);
+  transition:transform .9s cubic-bezier(.22,1,.36,1), opacity .3s ease;
 }
 
 /* Kiểu tem phiếu góc trên bên phải */
@@ -241,7 +209,7 @@ button:active{transform:translateY(1px)}
   font-size: 24px;
   color: #2c2a29;
   margin-bottom: 15px;
-  font-family: 'Caveat', cursive;
+  font-family: 'Dancing Script', cursive;
   font-weight: 700;
 }
 
@@ -267,16 +235,16 @@ button:active{transform:translateY(1px)}
 }
 
 .message-body {
-  font-size: 18px;
+  font-size: 17px;
   line-height: 1.6;
   color: #4a453f;
-  font-family: 'Caveat', cursive;
+  font-family: 'Dancing Script', cursive;
   margin-bottom: 25px;
 }
 
 .signature {
   text-align: right;
-  font-family: 'Caveat', cursive;
+  font-family: 'Dancing Script', cursive;
   font-size: 20px;
   color: #b8324b;
   margin-bottom: 20px;
@@ -299,16 +267,6 @@ button:active{transform:translateY(1px)}
 }
 
 /* ================= CÁC CLASS ACTIVE KÍCH HOẠT ================= */
-.card-container.state-half .card-cover {
-  transform: translateY(-100%);
-  opacity: 0;
-  pointer-events: none;
-}
-
-.card-container.state-half .card-inside {
-  opacity: 1;
-  pointer-events: auto;
-}
 
 .card-container.state-full .half-open-text {
   display: none;
@@ -320,9 +278,29 @@ button:active{transform:translateY(1px)}
   transform: translateY(0);
 }
 
+/* ===== MỞ PHONG BÌ: (1) nắp mở + thư nhô lên -> (2) thư trượt ra, phóng to ===== */
+.card-container.state-open .env-flap{transform:perspective(900px) rotateX(180deg); z-index:1}
+.card-container.state-open .wax-seal-stamp{opacity:0; transform:translate(-50%,-50%) scale(.5)}
+.card-container.state-open .cover-hint{opacity:0}
+.card-container.state-open .card-inside{
+  opacity:1; transform:translateY(-168px) scale(.55); transition-delay:.5s;
+}
+/* state-half phải đứng SAU state-open để thắng độ trễ */
+.card-container.state-half .card-inside{
+  opacity:1; transform:translateY(0) scale(1); pointer-events:auto; transition-delay:0s;
+}
+.card-container.state-half .card-cover{pointer-events:none}
+.card-container.state-half .env-back,
+.card-container.state-half .env-front{opacity:0; transform:translateY(60px)}
+.card-container.state-half .env-flap{opacity:0}
+
 .card-actions{display:flex; justify-content:space-between; align-items:center; gap:10px}
 .dl-btn{
   background:#b8324b; color:#fff; border:none; border-radius:6px; box-shadow:none;
   padding:9px 13px; font:600 13px system-ui,sans-serif; cursor:pointer;
 }
 .dl-btn:disabled{opacity:.6; cursor:wait}
+
+:root{--vi:"Be Vietnam Pro",system-ui,sans-serif}
+input,select,#err,#pick,#pickL button,#pickBack,#again,#hint,
+.cover-hint,.swipe-hint,.close-btn,.dl-btn{font-family:var(--vi)}

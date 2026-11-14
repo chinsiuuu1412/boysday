@@ -339,18 +339,27 @@ function showReward() {                       // gọi khi rương mở xong
   $("cardMsg").textContent = P.msg || DEFAULT_MSG;
   $("cardSig").textContent = P.from || DEFAULT_FROM;
   $("cardPhoto").src = P.photo || DEFAULT_PHOTO;
-  cardBox.classList.remove("state-half", "state-full");
+  clearTimeout(openT);
+  cardBox.classList.remove("state-open", "state-half", "state-full");
   $("cardModal").classList.add("show");
   fitCard();
 }
-cardCover.addEventListener("click", () => cardBox.classList.add("state-half"));
+cardCover.addEventListener("click", () => {
+  if (cardBox.classList.contains("state-open")) return;
+  cardBox.classList.add("state-open");                       // nắp mở, thư nhô lên
+  musicOn();
+  openT = setTimeout(() => cardBox.classList.add("state-half"), 1300);   // thư trượt ra, phóng to
+});
 halfText.addEventListener("click", () => cardBox.classList.add("state-full"));
 cardBox.addEventListener("touchstart", e => { touchStartY = e.touches[0].clientY; });
 cardBox.addEventListener("touchend", e => {
   if (cardBox.classList.contains("state-half") && !cardBox.classList.contains("state-full")
       && touchStartY - e.changedTouches[0].clientY > 40) cardBox.classList.add("state-full");
 });
-closeBtn.addEventListener("click", e => { e.stopPropagation(); cardBox.classList.remove("state-half", "state-full"); });
+closeBtn.addEventListener("click", e => {
+  e.stopPropagation(); clearTimeout(openT); musicOff();
+  cardBox.classList.remove("state-open", "state-half", "state-full");
+});
 
 // ====== TẢI THIỆP DẠNG PNG (vẽ lại bằng canvas, 760x1100) ======
 function rr(q, x, y, w, h, r) {
@@ -381,7 +390,10 @@ function loadImg(src) { // thử có CORS trước, lỗi thì thử lại khôn
 async function downloadCard() {
   const btn = $("dlBtn"); btn.disabled = true; btn.textContent = "Đang tạo ảnh…";
   try {
-    await Promise.all([document.fonts.load("700 24px Caveat"), document.fonts.load("500 18px Caveat")]);
+    await Promise.all([
+    document.fonts.load("700 24px 'Dancing Script'", P.name),
+    document.fonts.load("500 18px 'Dancing Script'", (P.msg || DEFAULT_MSG) + (P.from || DEFAULT_FROM))
+                      ]);
     const img = await loadImg(P.photo || DEFAULT_PHOTO);
     const c = document.createElement("canvas"); c.width = 760; c.height = 1100;
     const q = c.getContext("2d"); q.scale(2, 2);
@@ -400,20 +412,17 @@ async function downloadCard() {
     } else { q.fillStyle = "#e9e2d0"; q.fillRect(fx, fy, fw, fh); }
     q.restore();
 
+    q.fillStyle = "#2c2a29"; q.font = "700 24px 'Dancing Script', cursive";
     // chữ
-    q.textBaseline = "top"; q.textAlign = "left";
-    q.fillStyle = "#2c2a29"; q.font = "700 24px Caveat, cursive";
-    q.fillText("Dear " + P.name + ",", 30, 130);
-
-    const msg = P.msg || DEFAULT_MSG; let fs = 18, lines;
-    for (; fs >= 12; fs--) {                 // lời chúc dài thì tự thu nhỏ chữ cho vừa thiệp
-      q.font = "500 " + fs + "px Caveat, cursive"; lines = wrapText(q, msg, 320);
-      if (175 + lines.length * fs * 1.6 <= 450) break;
+    const msg = P.msg || DEFAULT_MSG; let fs = 17, lines;
+    for (; fs >= 12; fs--) 
+    {
+      q.font = "500 " + fs + "px 'Dancing Script', cursive"; lines = wrapText(q, msg, 320);
     }
     q.fillStyle = "#4a453f";
     lines.forEach((l, i) => q.fillText(l, 30, 175 + i * fs * 1.6));
 
-    q.fillStyle = "#b8324b"; q.font = "500 20px Caveat, cursive"; q.textAlign = "right";
+    q.fillStyle = "#b8324b"; q.font = "500 20px 'Dancing Script', cursive"; q.textAlign = "right";
     q.fillText(P.from || DEFAULT_FROM, 350, 175 + lines.length * fs * 1.6 + 25);
 
     const slug = strip(P.name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
