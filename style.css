@@ -149,14 +149,17 @@ button:active{transform:translateY(1px)}
 .wax-seal-stamp{
   position:absolute; left:50%; top:275px; z-index:5;
   transform:translate(-50%,-50%);
-  width:68px; height:68px; background:#b8324b; border-radius:50%;
+  width:76px; height:76px; background:#b8324b; border-radius:50%;
   display:flex; flex-direction:column; justify-content:center; align-items:center;
+  gap:2px;
   color:#fff; box-shadow:0 6px 15px rgba(184,50,75,.35);
   border:3px dashed rgba(255,255,255,.5);
   transition:transform .35s ease, opacity .3s ease;
 }
 .card-container:not(.state-open) .wax-seal-stamp:hover{transform:translate(-50%,-50%) scale(1.08)}
-.stamp-ring{font-size:11px; letter-spacing:1px; font-weight:bold; text-transform:none}  /* giữ nguyên chữ thường: o365 */
+.stamp-ring{
+  font-size:10px; letter-spacing:0.5px; font-weight:bold; text-transform:none;
+  text-align:center; white-space:nowrap} 
 
 .cover-hint{
   position:absolute; left:0; right:0; top:415px; z-index:5; text-align:center;
