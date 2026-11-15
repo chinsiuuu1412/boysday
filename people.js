@@ -41,11 +41,13 @@ const ROSTER = [
   {ban: "Chuyên môn", name: "Trần Hữu Đăng Trường", token: "jkl890", photo:"photos/dang-truong.jpg", msg: "Cảm ơn Trường vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
   {ban: "Chuyên môn", name: "Nguyễn Ánh Ngọc", token: "5m8yfyg8", photo: "photo/anhngoc.jpg", msg: "Cảm ơn Ngọc vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
   {ban: "Chuyên môn", name: "Ngô Ánh Dương", token: "yugum3yh", photo: "photo/anhduong.jpg", msg: "Cảm ơn Dương vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Chuyên môn", name: "Bùi Công Minh", token: "7j8k9l0m", photo: "photo/Bùi Công Minh.jpg", msg: "Cảm ơn Minh vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Chuyên môn", name: "Ngô Thành Chung", token: "8n9o0p1q", photo: "photo/Ngô Thành Chung.jpg", msg: "Cảm ơn Chung vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
 
   {ban: "Tài chính", name: "Lê Nguyễn Đức Long", token: "v4ppkzwu", photo: "photos/duclong.jpg",   msg: "Cảm ơn Long vì những con số luôn chính xác và kịp thời. Chúc bạn luôn hạnh phúc và thành công!"},  
   {ban: "Tài chính", name: "Kiều Minh Hiếu", token: "t5khw878", photo: "photos/kieu-hieu.jpg",   msg: "Cảm ơn Hiếu vì những con số luôn chính xác và kịp thời. Chúc bạn luôn hạnh phúc và thành công!"}, 
   {ban: "Tài chính", name: "Nguyễn Hoàn Minh", token: "vtuzsn37", photo: "photos/hoan-minh.jpg", msg: "Cảm ơn Minh vì những con số luôn chính xác và kịp thời. Chúc bạn luôn hạnh phúc và thành công!"},   
-  {ban: "Tài chính", name: "Trịnh Gia Bảo", token: "swhmgrtj", photo: "photos/gia-bao.jpg", msg: "Cảm ơn Bảo vì những con số luôn chính xác và kịp thời. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Tài chính", name: "Trịnh Gia Bảo", token: "swhmgrtj", photo: "photos/Trịnh Gia Bảo.jpg", msg: "Cảm ơn Bảo vì những con số luôn chính xác và kịp thời. Chúc bạn luôn hạnh phúc và thành công!"},
   {ban: "Tài chính", name: "Tưởng Hoàng Minh", token: "p6wvy5u5", photo: "photos/hoang-minh.jpg", msg: "Cảm ơn Minh vì những con số luôn chính xác và kịp thời. Chúc bạn luôn hạnh phúc và thành công!"},  
   {ban: "Tài chính", name: "Lương Thành Danh", token: "jdjgt9m9", photo: "photos/thanh-danh.jpg", msg: "Cảm ơn Danh vì những con số luôn chính xác và kịp thời. Chúc bạn luôn hạnh phúc và thành công!"},  
   {ban: "Tài chính", name: "Nguyễn Văn Hưng", token: "9xt29agp", photo: "photos/van-hung.jpg", msg: "Cảm ơn Hưng vì những con số luôn chính xác và kịp thời. Chúc bạn luôn hạnh phúc và thành công!"}, 
@@ -87,7 +89,7 @@ const ROSTER = [
   {ban: "Truyền thông", name: "Nguyễn Doãn Hoàng An", token: "q68dkse5", photo: "photos/hoang-an.jpg", msg: "Cảm ơn An vì những thước hình và con chữ đầy cảm hứng!"},
   {ban: "Truyền thông", name: "Nguyễn Nhật Huy", token: "fze29fbb", photo: "photos/nhat-huy.jpg", msg: "Cảm ơn Huy vì những thước hình và con chữ đầy cảm hứng!"},
   {ban: "Truyền thông", name: "Nguyễn Tuấn An", token: "ynpxnwzx", photo: "photos/tuan-an.jpg", msg: "Cảm ơn An vì những thước hình và con chữ đầy cảm hứng!"},
-  {ban: "Truyền thông", name: "Nguyễn Đức Hùng", token: "zg8rvr9b", photo: "photos/duc-hung.jpg", msg: "Cảm ơn Hùng vì những thước hình và con chữ đầy cảm hứng!"},
+  {ban: "Truyền thông", name: "Nguyễn Đức Hùng", token: "zg8rvr9b", photo: "photos/Nguyễn Đức Hùng.jpg", msg: "Cảm ơn Hùng vì những thước hình và con chữ đầy cảm hứng!"},
   {ban: "Truyền thông", name: "Ngô Đình Đức", token: "2pjufqsb", photo: "photos/dinh-duc.jpg", msg: "Cảm ơn Đức vì những thước hình và con chữ đầy cảm hứng!"},
   {ban: "Truyền thông", name: "Phạm Trí Kiên", token: "7z6jfkau", photo: "photos/tri-kien.jpg", msg: "Cảm ơn Kiên vì những thước hình và con chữ đầy cảm hứng!"},
   {ban: "Truyền thông", name: "Tạ Thanh Phúc", token: "4fq4g4e7", photo: "photos/thanh-phuc.jpg", msg: "Cảm ơn Phúc vì những thước hình và con chữ đầy cảm hứng!"},
@@ -95,5 +97,6 @@ const ROSTER = [
   {ban: "Truyền thông", name: "Nguyễn Minh Trí", token: "afehgs8x", photo: "photos/minh-tri.jpg", msg: "Cảm ơn Trí vì những thước hình và con chữ đầy cảm hứng!"},
   {ban: "Truyền thông", name: "Nguyễn Phú Trọng", token: "3e4tjwak", photo: "photos/phu-trong.jpg", msg: "Cảm ơn Trọng vì những thước hình và con chữ đầy cảm hứng!"},
   {ban: "Truyền thông", name: "Trần Việt Hoàng", token: "53zv73pn", photo: "photos/viet-hoang.jpg", msg: "Cảm ơn Hoàng vì những thước hình và con chữ đầy cảm hứng!"},
+  {ban: "Truyền thông", name: "Lê Thanh Bình", token: "4g7j3f8k", photo: "photos/Lê Thanh Bình.jpg", msg: "Cảm ơn Bình vì những thước hình và con chữ đầy cảm hứng!"},
 
 ];
