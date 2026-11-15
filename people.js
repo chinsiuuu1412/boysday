@@ -4,27 +4,26 @@ const BANS = ["Điều hành", "Chuyên môn", "Tài chính", "Sự kiện", "Tr
 // Dùng khi một người không có ảnh / lời chúc / chữ ký riêng
 const DEFAULT_PHOTO = "photos/default.jpg";
 const DEFAULT_MSG   = "Chúc bạn một ngày tràn ngập niềm vui, luôn giữ nụ cười tươi trên môi và đạt được mọi điều tuyệt vời nhất trong hành trình sắp tới!";
-const DEFAULT_FROM  = "From girls-o365 with love ❤️";
+const DEFAULT_FROM  = "From girls-o365 HUST with love ❤️";
 
 // name: viết đầy đủ, có dấu, đúng chính tả (chữ này sẽ in lên thiệp)
 // photo: ảnh tỉ lệ khoảng 4:5, msg nên dưới ~250 ký tự, from: không bắt buộc
 const ROSTER = [
-  {ban: "Điều hành", name: "Dương Đức Tùng", token: "abc123", photo: "photos/duc-tung.jpg", msg: "Cảm ơn Tùng vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Điều hành", name: "Hoàng Nguyễn Công Mạnh", token: "def456", photo: "photos/cong-manh.jpg", msg: "Cảm ơn Mạnh vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Điều hành", name: "Khúc Thanh Bình", token: "ghi789", photo: "photos/thanh-binh.jpg", msg: "Cảm ơn Bình vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Điều hành", name: "Lê Hải Bình", token: "jkl012", photo: "photos/hai-binh.jpg", msg: "Cảm ơn Bình vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Điều hành", name: "Nguyễn Hoàng Hiệp", token: "mno345", photo: "photos/hoang-hiep.jpg", msg: "Cảm ơn Hiệp vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Điều hành", name: "Phạm Duy Minh", token: "pqr678", photo: "photos/duy-minh.jpg", msg: "Cảm ơn Minh vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Điều hành", name: "Vũ Lê Dũng", token: "stu901", photo: "photos/le-dung.jpg", msg: "Cảm ơn Dũng vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Điều hành", name: "Dương Đức Tùng", token: "abc123", photo: "photo/ductung.jpg", msg: "Cảm ơn Tùng vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Điều hành", name: "Hoàng Nguyễn Công Mạnh", token: "def456", photo: "photo/congmanh.jpg", msg: "Cảm ơn Mạnh vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Điều hành", name: "Khúc Thanh Bình", token: "ghi789", photo: "photo/thanhbinh.jpg", msg: "Cảm ơn Bình vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Điều hành", name: "Lê Hải Bình", token: "jkl012", photo: "photo/haibinh.jpg", msg: "Cảm ơn Bình vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Điều hành", name: "Nguyễn Hoàng Hiệp", token: "mno345", photo: "photo/hoanghiep.jpg", msg: "Cảm ơn Hiệp vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Điều hành", name: "Phạm Duy Minh", token: "pqr678", photo: "photo/duyminh.jpg", msg: "Cảm ơn Minh vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Điều hành", name: "Vũ Lê Dũng", token: "stu901", photo: "photo/ledung.jpg", msg: "Cảm ơn Dũng vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
 
-  {ban: "Chuyên môn", name: "Nguyễn Phúc Anh", token: "vwx234", photo: "photos/phuc-anh.jpg", msg: "Cảm ơn Anh vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Chuyên môn", name: "Bùi Hữu Tùng", token: "yza567", photo: "photos/huu-tung.jpg", msg: "Cảm ơn Tùng vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Chuyên môn", name: "Lã Huy Gia Huy", token: "bcd890", photo: "photos/gia-huy.jpg", msg: "Cảm ơn Huy vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Chuyên môn", name: "Lê Nguyễn Thái Sơn", token: "efg123", photo: "photos/thai-son.jpg", msg: "Cảm ơn Sơn vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Chuyên môn", name: "Lê Trần Hoàng Lân", token: "hij456", photo: "photos/hoang-lan.jpg", msg: "Cảm ơn Lân vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Chuyên môn", name: "Lưu Gia Bình", token: "klm789", photo: "photos/gia-binh.jpg", msg: "Cảm ơn Bình vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Chuyên môn", name: "Lương Anh Khoa", token: "nop012", photo: "photos/anh-khoa.jpg", msg: "Cảm ơn Khoa vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Chuyên môn", name: "Mông Duy Khánh", token: "qrs345", photo: "photos/duy-khanh.jpg", msg: "Cảm ơn Khánh vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Chuyên môn", name: "Nguyễn Phúc Anh", token: "vwx234", photo: "photo/phucanh.jpg", msg: "Cảm ơn Anh vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Chuyên môn", name: "Bùi Hữu Tùng", token: "yza567", photo: "photo/huu-tung.jpg", msg: "Cảm ơn Tùng vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Chuyên môn", name: "Lã Huy Gia Huy", token: "bcd890", photo: "photo/gia-huy.jpg", msg: "Cảm ơn Huy vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Chuyên môn", name: "Lê Nguyễn Thái Sơn", token: "efg123", photo: "photo/thai-son.jpg", msg: "Cảm ơn Sơn vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Chuyên môn", name: "Lê Trần Hoàng Lân", token: "hij456", photo: "photo/hoang-lan.jpg", msg: "Cảm ơn Lân vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Chuyên môn", name: "Lưu Gia Bình", token: "klm789", photo: "photo/gia-binh.jpg", msg: "Cảm ơn Bình vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Chuyên môn", name: "Lương Anh Khoa", token: "nop012", photo: "photo/anh-khoa.jpg", msg: "Cảm ơn Khoa vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
   {ban: "Chuyên môn", name: "Nguyễn Thành Long", token: "tuv678", photo: "photos/thanh-long.jpg", msg: "Cảm ơn Long vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
   {ban: "Chuyên môn", name: "Nguyễn Vũ Khôi Nguyên", token: "wxy901", photo: "photos/khoi-nguyen.jpg", msg: "Cảm ơn Nguyên vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
   {ban: "Chuyên môn", name: "Ngô Sỹ Thống", token: "zab234", photo: "photos/sy-thong.jpg", msg: "Cảm ơn Thống vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
@@ -43,7 +42,7 @@ const ROSTER = [
   {ban: "Chuyên môn", name: "Nguyễn Ánh Ngọc", token: "5m8yfyg8", photo: "photo/anhngoc.jpg", msg: "Cảm ơn Ngọc vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
   {ban: "Chuyên môn", name: "Ngô Ánh Dương", token: "yugum3yh", photo: "photo/anhduong.jpg", msg: "Cảm ơn Dương vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
 
-  {ban: "Tài chính", name: "Lê Nguyễn Đức Long", token: "v4ppkzwu", photo: "photos/duc-long.jpg",   msg: "Cảm ơn Long vì những con số luôn chính xác và kịp thời. Chúc bạn luôn hạnh phúc và thành công!"},  
+  {ban: "Tài chính", name: "Lê Nguyễn Đức Long", token: "v4ppkzwu", photo: "photos/duclong.jpg",   msg: "Cảm ơn Long vì những con số luôn chính xác và kịp thời. Chúc bạn luôn hạnh phúc và thành công!"},  
   {ban: "Tài chính", name: "Kiều Minh Hiếu", token: "t5khw878", photo: "photos/kieu-hieu.jpg",   msg: "Cảm ơn Hiếu vì những con số luôn chính xác và kịp thời. Chúc bạn luôn hạnh phúc và thành công!"}, 
   {ban: "Tài chính", name: "Nguyễn Hoàn Minh", token: "vtuzsn37", photo: "photos/hoan-minh.jpg", msg: "Cảm ơn Minh vì những con số luôn chính xác và kịp thời. Chúc bạn luôn hạnh phúc và thành công!"},   
   {ban: "Tài chính", name: "Trịnh Gia Bảo", token: "swhmgrtj", photo: "photos/gia-bao.jpg", msg: "Cảm ơn Bảo vì những con số luôn chính xác và kịp thời. Chúc bạn luôn hạnh phúc và thành công!"},
@@ -56,7 +55,7 @@ const ROSTER = [
   {ban: "Tài chính", name: "Đỗ Minh Nhật", token: "jce4e4zc", photo: "photos/minh-nhat.jpg", msg: "Cảm ơn Nhật vì những con số luôn chính xác và kịp thời. Chúc bạn luôn hạnh phúc và thành công!"},   
   {ban: "Tài chính", name: "Đỗ Quang Minh", token: "vnm65bqr", photo:"photos/quang-minh.jpg", msg: "Cảm ơn Minh vì những con số luôn chính xác và kịp thời. Chúc bạn luôn hạnh phúc và thành công!"},
 
-  {ban: "Sự kiện", name: "Phạm Trần Thành Công", token: "xyz012", photo: "photos/thanh-cong.jpg", msg: "Mọi sự kiện thành công đều có dấu ấn của Công. Chúc bạn luôn năng lượng!"},
+  {ban: "Sự kiện", name: "Phạm Trần Thành Công", token: "xyz012", photo: "photos/thanhcong.jpg", msg: "Mọi sự kiện thành công đều có dấu ấn của Công. Chúc bạn luôn năng lượng!"},
   {ban: "Sự kiện", name: "Lê Ngọc Minh", token: "abc345", photo: "photos/ngoc-minh.jpg", msg: "Mọi sự kiện thành công đều có dấu ấn của Minh. Chúc bạn luôn năng lượng!"},
   {ban: "Sự kiện", name: "Nguyễn Hoàng Quân", token: "def678", photo: "photos/hoang-quan.jpg", msg: "Mọi sự kiện thành công đều có dấu ấn của Quân. Chúc bạn luôn năng lượng!"},
   {ban: "Sự kiện", name: "Nguyễn Hoàng Tùng", token: "ghi901", photo: "photos/hoang-tung.jpg", msg: "Mọi sự kiện thành công đều có dấu ấn của Tùng. Chúc bạn luôn năng lượng!"},
