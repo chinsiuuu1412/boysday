@@ -350,3 +350,6 @@ html,body{overscroll-behavior:none}
   width:84px; height:84px; font-size:26px;
   touch-action:none; -webkit-touch-callout:none; -webkit-user-select:none; user-select:none;
 }
+
+#hello{font-family:var(--vi); line-height:1.5; font-size:max(3.4cqw,14px); color:#fff}
+#hello strong{display:block; font-size:max(4.4cqw,18px); color:#fcd800; margin:2px 0}

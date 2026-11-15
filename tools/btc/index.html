@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>BTC – Link và QR thiệp cá nhân</title>
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:#f4f1ea;color:#2c2a29}
+  header{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid #ddd;padding:12px 16px}
+  h1{margin:0 0 8px;font-size:18px}
+  .bar{display:flex;flex-wrap:wrap;gap:8px}
+  input,select,button,.btn{font:inherit;padding:8px 12px;border:1px solid #bbb;border-radius:8px;background:#fff;color:inherit}
+  input{flex:1 1 180px;min-width:0}
+  button,.btn{cursor:pointer;text-decoration:none;display:inline-block}
+  button:hover,.btn:hover{background:#f0ebe0}
+  button.pri{background:#b8324b;border-color:#b8324b;color:#fff}
+  #stat{margin:8px 0 0;font-size:13px;color:#6b665c}
+  #stat b{color:#b8324b}
+  main{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;padding:16px}
+  .card{background:#fff;border:1px solid #ddd;border-radius:12px;padding:12px;text-align:center}
+  .card.bad{border-color:#b8324b;background:#fdf0f2}
+  .card canvas{width:160px;height:160px;max-width:100%;image-rendering:pixelated}
+  .name{font-weight:600;margin-top:6px}
+  .ban{font-size:13px;color:#6b665c}
+  .url{font:11px/1.3 ui-monospace,Consolas,monospace;color:#6b665c;word-break:break-all;margin:6px 0}
+  .btns{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+  .btns button,.btns .btn{padding:5px 9px;font-size:13px}
+  @media print{
+    @page{margin:10mm}
+    body{background:#fff}
+    header,.btns,.url{display:none}
+    main{grid-template-columns:repeat(3,1fr);gap:8mm;padding:0}
+    .card{break-inside:avoid;border:1px dashed #999;border-radius:0}
+    .card canvas{width:5cm;height:5cm}
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Link và QR thiệp cá nhân</h1>
+  <div class="bar">
+    <input id="q" placeholder="Tìm tên (gõ có dấu hoặc không dấu)" autocomplete="off">
+    <select id="fb"><option value="">Tất cả các ban</option></select>
+    <button id="zip" class="pri">⬇ Tải tất cả QR (ZIP)</button>
+    <button id="csv">⬇ Danh sách link (CSV)</button>
+    <button id="prt">🖨 In bảng QR</button>
+  </div>
+  <p id="stat"></p>
+</header>
+<main id="grid"></main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="../people.js"></script>
+<script>
+// Địa chỉ trang thiệp. Đổi dòng này nếu đổi tên repo/tài khoản (QR cũ sẽ hỏng, nên tránh đổi).
+const SITE = "https://chinsiuuu1412.github.io/boysday/";
+
+const $ = id => document.getElementById(id);
+const strip = s => s.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D");
+const slug = s => strip(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const link = p => SITE + "?k=" + p.token;
+const fname = p => slug(p.name) + ".png";
+
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (text != null) e.textContent = text;
+  return e;
+}
+function dl(url, name) {
+  const a = document.createElement("a");
+  a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+}
+
+// QR có viền trắng (quiet zone) ~9% mỗi cạnh, mức sửa lỗi M
+const cache = new Map();
+function qr(p) {
+  if (cache.has(p.token)) return cache.get(p.token);
+  const px = 480, tmp = document.createElement("div");
+  new QRCode(tmp, {text: link(p), width: px, height: px, correctLevel: QRCode.CorrectLevel.M});
+  const src = tmp.querySelector("canvas"), m = Math.round(px * .09);
+  const out = document.createElement("canvas");
+  out.width = out.height = px + m * 2;
+  const g = out.getContext("2d");
+  g.fillStyle = "#fff"; g.fillRect(0, 0, out.width, out.height);
+  g.imageSmoothingEnabled = false; g.drawImage(src, m, m);
+  cache.set(p.token, out);
+  return out;
+}
+
+function card(p) {
+  const d = el("div", "card");
+  if (!p.token) {
+    d.classList.add("bad");
+    d.append(el("div", "name", p.name), el("div", "ban", "Ban " + p.ban), el("div", "url", "⚠ Chưa có token. Chạy: node tools/add-tokens.js"));
+    return d;
+  }
+  d.append(qr(p), el("div", "name", p.name), el("div", "ban", "Ban " + p.ban), el("div", "url", link(p)));
+  const b = el("div", "btns");
+  const copy = el("button", "", "Sao chép link");
+  copy.onclick = () => navigator.clipboard.writeText(link(p)).then(() => { copy.textContent = "Đã chép ✓"; setTimeout(() => copy.textContent = "Sao chép link", 1500); });
+  const open = el("a", "btn", "Mở thử"); open.href = link(p); open.target = "_blank"; open.rel = "noopener";
+  const png = el("button", "", "Tải QR");
+  png.onclick = () => dl(qr(p).toDataURL("image/png"), slug(p.ban) + "_" + fname(p));
+  b.append(copy, open, png); d.append(b);
+  return d;
+}
+
+function render() {
+  const q = strip($("q").value).toLowerCase().trim(), fb = $("fb").value;
+  const list = ROSTER.filter(p => (!fb || p.ban === fb) && (!q || strip(p.name).toLowerCase().includes(q)));
+  $("grid").textContent = "";
+  list.forEach(p => $("grid").appendChild(card(p)));
+  const miss = ROSTER.filter(p => !p.token).length;
+  const seen = new Set(), dup = ROSTER.filter(p => p.token && (seen.has(p.token) || !seen.add(p.token))).length;
+  $("stat").textContent = "";
+  $("stat").append(document.createTextNode("Hiển thị " + list.length + " / " + ROSTER.length + " người."));
+  if (miss) $("stat").append(el("b", "", " · " + miss + " người chưa có token"));
+  if (dup) $("stat").append(el("b", "", " · " + dup + " token bị trùng"));
+}
+
+BANS.forEach(b => $("fb").add(new Option(b, b)));
+$("q").oninput = $("fb").onchange = render;
+
+$("zip").onclick = async () => {
+  const z = new JSZip(), list = ROSTER.filter(p => p.token);
+  list.forEach(p => z.folder(slug(p.ban)).file(fname(p), qr(p).toDataURL("image/png").split(",")[1], {base64: true}));
+  const blob = await z.generateAsync({type: "blob"}), u = URL.createObjectURL(blob);
+  dl(u, "qr-thiep.zip"); setTimeout(() => URL.revokeObjectURL(u), 5000);
+};
+$("csv").onclick = () => {
+  const rows = [["Ban", "Họ tên", "Link"], ...ROSTER.filter(p => p.token).map(p => [p.ban, p.name, link(p)])];
+  const csv = "\ufeff" + rows.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(",")).join("\r\n");
+  const u = URL.createObjectURL(new Blob([csv], {type: "text/csv;charset=utf-8"}));
+  dl(u, "link-thiep.csv"); setTimeout(() => URL.revokeObjectURL(u), 5000);
+};
+$("prt").onclick = () => window.print();
+
+render();
+</script>
+</body>
+</html>

@@ -154,7 +154,7 @@ function chest(i) {
 
 function drawStart() {
   R("#9290ff", 0, 0, W, H);
-  TX(strip($("nm").value).toUpperCase().slice(0, 8) || "MARIO", 70, 18, "#fff");
+  TX(PERSONAL ? short(PERSONAL) : (strip($("nm").value).toUpperCase().slice(0, 8) || "MARIO"), 70, 18, "#fff");
   TX("8-4", 142, 28, "#fff"); TX("TIME", 176, 18, "#fff"); TX("000000", 70, 28, "#fff");
   R("#000", 78, 42, 104, 52); R("#984e00", 76, 40, 104, 52);
   TX("SUPER", 82, 64, "#000", "left", 16); TX("SUPER", 80, 62, "#ffccc5", "left", 16);
@@ -288,6 +288,20 @@ BANS.forEach(b => $("ban").add(new Option(b, b)));
 $("err").textContent = TIP;
 $("nm").oninput = $("ban").onchange = () => { $("err").className = ""; $("err").textContent = TIP; };
 
+// ====== LINK CÁ NHÂN (?k=MÃ) ======
+const short = p => strip(p.name.trim().split(/\s+/).pop()).toUpperCase().slice(0, 8);
+const KEY = new URLSearchParams(location.search).get("k");
+const PERSONAL = KEY ? (ROSTER.find(p => p.token === KEY) || null) : null;
+if (PERSONAL) {
+  ["ban", "nm", "err"].forEach(id => $(id).style.display = "none");     // bỏ form chọn ban và nhập tên
+  const h = document.createElement("div"); h.id = "hello";
+  const a = document.createElement("div"), b = document.createElement("strong"), c = document.createElement("div");
+  a.textContent = "Xin chào,"; b.textContent = PERSONAL.name; c.textContent = "Ban " + PERSONAL.ban;
+  h.append(a, b, c); $("ui").insertBefore(h, $("go"));
+} else if (KEY) {
+  err("Link không hợp lệ hoặc đã bị thay đổi. Hãy quét lại mã QR hoặc liên hệ BTC.");
+}
+
 function err(t) { const e = $("err"); e.textContent = t; e.className = "bad"; }
 
 function submit() {
@@ -316,7 +330,7 @@ function enter(p) {
   nm = strip(p.name.trim().split(/\s+/).pop()).toUpperCase().slice(0, 8); // tên riêng không dấu cho HUD và lời thoại
   begin();
 }
-$("go").onclick = submit;
+$("go").onclick = () => PERSONAL ? enter(PERSONAL) : submit();
 $("pickBack").onclick = () => { $("pick").style.display = "none"; $("nm").focus(); };
 $("again").onclick = () => {
   $("cardModal").classList.remove("show");
