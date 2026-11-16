@@ -9,13 +9,20 @@ const DEFAULT_FROM  = "From girls-o365 HUST with love ❤️";
 // name: viết đầy đủ, có dấu, đúng chính tả (chữ này sẽ in lên thiệp)
 // photo: ảnh tỉ lệ khoảng 4:5, msg nên dưới ~250 ký tự, from: không bắt buộc
 const ROSTER = [
-  {ban: "Điều hành", name: "Dương Đức Tùng", token: "abc123", photo: "photo/ductung.jpg", msg: "Cảm ơn Tùng vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Điều hành", name: "Hoàng Nguyễn Công Mạnh", token: "def456", photo: "photo/congmanh.jpg", msg: "Cảm ơn Mạnh vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Điều hành", name: "Khúc Thanh Bình", token: "ghi789", photo: "photo/thanhbinh.jpg", msg: "Cảm ơn Bình vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Điều hành", name: "Lê Hải Bình", token: "jkl012", photo: "photo/haibinh.jpg", msg: "Cảm ơn Bình vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Điều hành", name: "Nguyễn Hoàng Hiệp", token: "mno345", photo: "photo/hoanghiep.jpg", msg: "Cảm ơn Hiệp vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Điều hành", name: "Phạm Duy Minh", token: "pqr678", photo: "photo/duyminh.jpg", msg: "Cảm ơn Minh vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Điều hành", name: "Vũ Lê Dũng", token: "stu901", photo: "photo/ledung.jpg", msg: "Cảm ơn Dũng vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
+  {ban: "Điều hành", name: "Dương Đức Tùng", token: "abc123", photo: "photo/ductung.jpg", 
+  msg: "Nhân ngày Quốc tế Nam giới 19/11, gửi tới cậu lời chúc bình an, sức khỏe và thật nhiều may mắn. Sự điềm đạm và chân thành của cậu luôn khiến mọi người xung quanh cảm thấy rất dễ chịu. Chúc cậu công việc hanh thông, cuộc sống nhẹ nhàng êm ả và mỗi ngày trôi qua đều thật ý nghĩa!"},
+  {ban: "Điều hành", name: "Hoàng Nguyễn Công Mạnh", token: "def456", photo: "photo/congmanh.jpg",
+  msg: "Chúc mừng ngày 19/11! Chúc bạn có một ngày lễ thật nhẹ nhàng, bình yên và ngập tràn năng lượng tích cực. Mong bạn luôn giữ được sự chân thành, tử tế và nhiệt huyết trong mọi hành trình sắp tới. Chúc công việc của bạn ngày càng thuận lợi, cuộc sống êm đềm và mọi ước mơ sớm thành hiện thực!"},
+  {ban: "Điều hành", name: "Khúc Thanh Bình", token: "ghi789", photo: "photo/thanhbinh.jpg",
+  msg: "Chúc sốp vạn sự như ý, học tập mãi đỉnh, dẫn dắt đàn con thơ Kỹ thuật lên tầm cao mới của code nhé!"},
+  {ban: "Điều hành", name: "Lê Hải Bình", token: "jkl012", photo: "photo/haibinh.jpg",
+  msg: "Happy Men's Day 19/11! Chúc bạn mỗi ngày thức dậy đều tràn ngập hứng khởi, làm việc hiệu quả và tận hưởng trọn vẹn từng khoảnh khắc của cuộc sống. Mong mọi điều tốt đẹp, bình an và may mắn nhất sẽ luôn đồng hành cùng bạn. Chúc bạn một ngày lễ thật rộn ràng và nhiều niềm vui!"},
+  {ban: "Điều hành", name: "Nguyễn Hoàng Hiệp", token: "mno345", photo: "photo/hoanghiep.jpg",
+  msg: "Ngày 19/11 chúc bạn thật nhiều sức khỏe, niềm vui và sự cân bằng trong cuộc sống. Mong công việc của bạn luôn trôi chảy, xung quanh toàn người dễ mến và mọi áp lực đều hóa nhẹ nhàng. Chúc bạn có một ngày lễ thật đáng nhớ bên bạn bè, người thân và luôn giữ vững nụ cười tươi tắn trên môi!"},
+  {ban: "Điều hành", name: "Phạm Duy Minh", token: "pqr678", photo: "photo/duyminh.jpg",
+  msg: "Chúc mừng ngày 19/11 của phái mạnh! Cảm ơn cậu vì sự hỗ trợ nhiệt tình và tinh thần trách nhiệm cao trong suốt thời gian qua. Chúc cậu luôn giữ được ngọn lửa đam mê, sức khỏe dồi dào, cuộc sống cân bằng và luôn có thật nhiều khoảnh khắc vui vẻ, đáng nhớ bên bạn bè, gia đình!"},
+  {ban: "Điều hành", name: "Vũ Lê Dũng", token: "stu901", photo: "photo/ledung.jpg",
+  msg: "Chúc mừng ngày Quốc tế Nam giới 19/11 của bạn! Chúc bạn sức khỏe bền bỉ, tinh thần minh mẫn để giải quyết gọn gàng mọi mục tiêu đã đặt ra. Mong rằng thần may mắn sẽ luôn mỉm cười với bạn trên mọi chặng đường, làm việc gì cũng thuận lợi và gặt hái thật nhiều thành quả xứng đáng!"},
 
   {ban: "Chuyên môn", name: "Nguyễn Phúc Anh", token: "vwx234", photo: "photo/phucanh.jpg", msg: "Cảm ơn Anh vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
   {ban: "Chuyên môn", name: "Bùi Hữu Tùng", token: "yza567", photo: "photo/huu-tung.jpg", msg: "Cảm ơn Tùng vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
