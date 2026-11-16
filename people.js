@@ -53,10 +53,6 @@ const ROSTER = [
   {ban: "Chuyên môn", name: "Trần Hữu Đăng Trường", token: "jkl890", photo:"photos/Trần Hữu Đăng Trường.jpg", msg: "Cảm ơn Trường vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
   {ban: "Chuyên môn", name: "Nguyễn Ánh Ngọc", token: "5m8yfyg8", photo: "photo/anhngoc.jpg", msg: "Cảm ơn Ngọc vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
   {ban: "Chuyên môn", name: "Ngô Ánh Dương", token: "yugum3yh", photo: "photo/anhduong.jpg", msg: "Cảm ơn Dương vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
-  {ban: "Chuyên môn", name: "Bùi Công Minh", token: "7j8k9l0m", photo: "photo/Bùi Công Minh.jpg",
-  msg: "Nhân ngày Quốc tế Nam giới 19/11, gửi tới cậu thật nhiều năng lượng tích cực và lời chúc tốt đẹp nhất. Cậu đã làm rất tốt trong suốt thời gian qua rồi, mong cậu sẽ tiếp tục tự tin tỏa sáng và chinh phục thêm nhiều mục tiêu lớn hơn nữa. Chúc cậu sức khỏe dồi dào và hạnh phúc!"},
-  {ban: "Chuyên môn", name: "Ngô Thành Chung", token: "8n9o0p1q", photo: "photo/Ngô Thành Chung.jpg",
-  msg: "Happy Men's Day 19/11! Chúc cậu hôm nay có một ngày thật rộn ràng tiếng cười, nhận được nhiều sự quan tâm và những niềm vui nho nhỏ đáng yêu. Mong cậu luôn giữ được sự duyên dáng, nhiệt thành và nguồn năng lượng tích cực để lan tỏa tới mọi người. Chúc cậu vạn sự như ý nhé!"},
   {ban: "Chuyên môn", name: "Đỗ Minh Quang", token: "9r0s1t2u", photo: "photo/Đỗ Minh Quang.jpg", msg: "Cảm ơn Quang vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
   {ban: "Chuyên môn", name: "Trần Văn Giáp", token: "0v1w2x3y", photo: "photo/Trần Văn Giáp.jpg", msg: "Cảm ơn Giáp vì những đóng góp tuyệt vời cho o365. Chúc bạn luôn hạnh phúc và thành công!"},
 
