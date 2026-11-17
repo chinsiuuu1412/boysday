@@ -353,3 +353,5 @@ html,body{overscroll-behavior:none}
 
 #hello{font-family:var(--vi); line-height:1.5; font-size:max(3.4cqw,14px); color:#fff}
 #hello strong{display:block; font-size:max(4.4cqw,18px); color:#fcd800; margin:2px 0}
+
+.message-body,.signature{font-family:'Dancing Script','Yomogi',cursive}

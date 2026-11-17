@@ -355,6 +355,7 @@ function showReward() {                       // gọi khi rương mở xong
   $("toFull").textContent = "Dear " + P.name + ",";
   $("cardMsg").textContent = P.msg || DEFAULT_MSG;
   $("cardSig").textContent = P.from || DEFAULT_FROM;
+  $("cardMsg").lang = $("cardSig").lang = P.lang || "vi";
   $("cardPhoto").src = P.photo || DEFAULT_PHOTO;
   clearTimeout(openT);
   cardBox.classList.remove("state-open", "state-half", "state-full");
@@ -405,11 +406,12 @@ function wrapText(q, t, w) {
   const out = [];
   t.split("\n").forEach(par => {
     let line = "";
-    par.split(/\s+/).forEach(word => {
-      const test = line ? line + " " + word : word;
-      if (q.measureText(test).width > w && line) { out.push(line); line = word; } else line = test;
+    par.split(/(\s+|[\u3000-\u9fff\uff00-\uffef])/).filter(Boolean).forEach(tok => {
+      const test = line + tok;
+      if (q.measureText(test).width > w && line.trim()) { out.push(line.trimEnd()); line = tok.trimStart(); }
+      else line = test;
     });
-    out.push(line);
+    out.push(line.trimEnd());
   });
   return out;
 }
@@ -425,10 +427,13 @@ function loadImg(src) { // thử có CORS trước, lỗi thì thử lại khôn
 async function downloadCard() {
   const btn = $("dlBtn"); btn.disabled = true; btn.textContent = "Đang tạo ảnh…";
   try {
+    const hf = P.lang === "ja" ? "'Yomogi'" : "'Dancing Script'";
+    const msgText = (P.msg || DEFAULT_MSG) + (P.from || DEFAULT_FROM);
     await Promise.all([
-    document.fonts.load("700 24px 'Dancing Script'", P.name),
-    document.fonts.load("500 18px 'Dancing Script'", (P.msg || DEFAULT_MSG) + (P.from || DEFAULT_FROM))
-                      ]);
+      document.fonts.load("700 24px 'Dancing Script'", P.name),
+      document.fonts.load("500 18px 'Dancing Script'", msgText),
+      document.fonts.load("400 18px 'Yomogi'", msgText)
+    ]);
     const img = await loadImg(P.photo || DEFAULT_PHOTO);
     const c = document.createElement("canvas"); c.width = 760; c.height = 1100;
     const q = c.getContext("2d"); q.scale(2, 2);
@@ -447,17 +452,17 @@ async function downloadCard() {
     } else { q.fillStyle = "#e9e2d0"; q.fillRect(fx, fy, fw, fh); }
     q.restore();
 
-    q.fillStyle = "#2c2a29"; q.font = "700 24px 'Dancing Script', cursive";
+    q.fillStyle = "#b8324b"; q.font = "500 20px 'Dancing Script', 'Yomogi', cursive"; q.textAlign = "right";
     // chữ
     const msg = P.msg || DEFAULT_MSG; let fs = 17, lines;
     for (; fs >= 12; fs--) 
     {
-      q.font = "500 " + fs + "px 'Dancing Script', cursive"; lines = wrapText(q, msg, 320);
+      q.font = "500 " + fs + "px 'Dancing Script', 'Yomogi', cursive"; lines = wrapText(q, msg, 320);
     }
     q.fillStyle = "#4a453f";
     lines.forEach((l, i) => q.fillText(l, 30, 175 + i * fs * 1.6));
 
-    q.fillStyle = "#b8324b"; q.font = "500 20px 'Dancing Script', cursive"; q.textAlign = "right";
+    q.fillStyle = "#b8324b"; q.font = "500 20px " + hf + ", cursive"; q.textAlign = "right";
     q.fillText(P.from || DEFAULT_FROM, 350, 175 + lines.length * fs * 1.6 + 25);
 
     const slug = strip(P.name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
