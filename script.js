@@ -37,13 +37,14 @@ function phys() {              // trọng lực + chạm sàn của Mario
   }
 }
 const ov = (a, b2, c, d, e, f, g2, h) => a < e + g2 && e < a + c && b2 < f + h && f < b2 + d; // va chạm hình chữ nhật
-function die() { lives--; snd(200, .5, 60); if (lives <= 0) S = "over"; else reset(); }
-function win() { S = "win"; fb = []; fl = []; tune([523, 659, 784, 1047, 784, 1047, 1319]); }
+function die() { lives--; snd(200, .5, 60); if (lives <= 0) { S = "over"; gameOff(); } else reset(); }
+function win() { S = "win"; fb = []; fl = []; gameOff(); tune([523, 659, 784, 1047, 784, 1047, 1319]); }
 function begin() {
   if (AC && AC.state === "suspended") AC.resume();
   lives = 3; reset(); S = "play";
   $("ui").style.display = "none"; $("pick").style.display = "none";
   $("cardModal").classList.remove("show");
+  unlockAudio(); gameOn();
 }
 
 // ====== CẬP NHẬT (60 lần/giây) ======
@@ -105,6 +106,7 @@ function upd() {
 function open(i) {
   if (co >= 0) return;
   co = i; sel = i; ct = 0;
+  musicOn();
   snd(500, .2, 1000); tune([784, 988, 1175, 1568]);
   for (let k = 0; k < 28; k++) coins.push({x: CX[i] + 16, y: GY - 16, vx: (Math.random() - .5) * 3, vy: -Math.random() * 4 - 1});
 }
@@ -333,6 +335,7 @@ function enter(p) {
 $("go").onclick = () => PERSONAL ? enter(PERSONAL) : submit();
 $("pickBack").onclick = () => { $("pick").style.display = "none"; $("nm").focus(); };
 $("again").onclick = () => {
+  musicOff();
   $("cardModal").classList.remove("show");
   S = "start"; coins = []; P = null; $("nm").value = "";
   $("ui").style.display = "flex"; $("nm").focus();
@@ -363,37 +366,53 @@ function showReward() {                       // gọi khi rương mở xong
   fitCard();
 }
 
-// ====== NHẠC KHI MỞ THIỆP ======
-const bgm = $("bgMusic"), muteBtn = $("muteBtn");
-bgm.volume = 0;
-let fadeT, openT;
-function fade(to, done) {
-  clearInterval(fadeT);
-  fadeT = setInterval(() => {
-    const d = to - bgm.volume;
-    if (Math.abs(d) < .03) { bgm.volume = to; clearInterval(fadeT); if (done) done(); }
-    else bgm.volume = Math.min(1, Math.max(0, bgm.volume + Math.sign(d) * .03));
+// ====== NHẠC: gm = nhạc game, bgm = bài khi mở rương và thiệp ======
+const bgm = $("bgMusic"), gm = $("gameMusic"), muteBtn = $("muteBtn");
+let openT, unlocked = false;
+const volOK = (() => { const a = new Audio(); a.volume = .5; return a.volume === .5; })();   // iPhone không cho chỉnh âm lượng
+
+function fade(a, to, done) {
+  clearInterval(a._f);
+  if (!volOK) { if (done) done(); return; }
+  a._f = setInterval(() => {
+    const d = to - a.volume;
+    if (Math.abs(d) < .03) { a.volume = to; clearInterval(a._f); if (done) done(); }
+    else a.volume = Math.min(1, Math.max(0, a.volume + Math.sign(d) * .03));
   }, 50);
 }
-const volOK = (() => { const a = new Audio(); a.volume = .5; return a.volume === .5; })();
-function musicOn()  { bgm.currentTime = 0; bgm.play().then(() => { if (volOK) fade(.6); }).catch(() => {}); }
-function musicOff() { if (volOK) fade(0, () => bgm.pause()); else bgm.pause(); }
-muteBtn.onclick = () => { bgm.muted = !bgm.muted; muteBtn.textContent = bgm.muted ? "🔇" : "🔊"; };
+function play(a, vol) {
+  clearInterval(a._f); a.currentTime = 0; if (volOK) a.volume = 0;
+  return a.play().then(() => fade(a, vol)).catch(() => {});
+}
+function stop(a) { fade(a, 0, () => a.pause()); }
+function musicOn()  { play(bgm, .6); }     // bài sau khi mở rương (chỉnh âm lượng: .6)
+function musicOff() { stop(bgm); }
+function gameOn()   { play(gm, .45); }     // nhạc kịch tính khi chơi (chỉnh âm lượng: .45)
+function gameOff()  { stop(gm); }
+function unlockAudio() {                    // lần chạm đầu tiên: "mở khóa" bài thứ hai để iPhone cho phép phát sau này
+  if (unlocked) return; unlocked = true;
+  const m = bgm.muted; bgm.muted = true;
+  bgm.play().then(() => { bgm.pause(); bgm.currentTime = 0; bgm.muted = m; }).catch(() => { bgm.muted = m; });
+}
+muteBtn.onclick = () => { const m = !bgm.muted; bgm.muted = gm.muted = m; muteBtn.textContent = m ? "🔇" : "🔊"; };
 
+// ====== MỞ / ĐÓNG THIỆP ======
+// 1. Bìa -> nắp phong bì mở, thư nhô lên, rồi thư trượt ra
 cardCover.addEventListener("click", () => {
   if (cardBox.classList.contains("state-open")) return;
-  cardBox.classList.add("state-open");                       // nắp mở, thư nhô lên
-  musicOn();
-  openT = setTimeout(() => cardBox.classList.add("state-half"), 1300);   // thư trượt ra, phóng to
+  cardBox.classList.add("state-open");
+  openT = setTimeout(() => cardBox.classList.add("state-half"), 1300);
 });
+// 2. Mở nửa -> mở hết (bấm hoặc vuốt lên)
 halfText.addEventListener("click", () => cardBox.classList.add("state-full"));
 cardBox.addEventListener("touchstart", e => { touchStartY = e.touches[0].clientY; });
 cardBox.addEventListener("touchend", e => {
   if (cardBox.classList.contains("state-half") && !cardBox.classList.contains("state-full")
       && touchStartY - e.changedTouches[0].clientY > 40) cardBox.classList.add("state-full");
 });
+// 3. Đóng thiệp lại (nhạc vẫn tiếp tục phát; muốn tắt nhạc khi đóng thì thêm musicOff(); vào đây)
 closeBtn.addEventListener("click", e => {
-  e.stopPropagation(); clearTimeout(openT); musicOff();
+  e.stopPropagation(); clearTimeout(openT);
   cardBox.classList.remove("state-open", "state-half", "state-full");
 });
 
@@ -427,7 +446,6 @@ function loadImg(src) { // thử có CORS trước, lỗi thì thử lại khôn
 async function downloadCard() {
   const btn = $("dlBtn"); btn.disabled = true; btn.textContent = "Đang tạo ảnh…";
   try {
-    const hf = P.lang === "ja" ? "'Yomogi'" : "'Dancing Script'";
     const msgText = (P.msg || DEFAULT_MSG) + (P.from || DEFAULT_FROM);
     await Promise.all([
       document.fonts.load("700 24px 'Dancing Script'", P.name),
@@ -452,17 +470,21 @@ async function downloadCard() {
     } else { q.fillStyle = "#e9e2d0"; q.fillRect(fx, fy, fw, fh); }
     q.restore();
 
-    q.fillStyle = "#b8324b"; q.font = "500 20px 'Dancing Script', 'Yomogi', cursive"; q.textAlign = "right";
-    // chữ
+        // chữ
+    q.textBaseline = "top"; q.textAlign = "left";
+    q.fillStyle = "#2c2a29"; q.font = "700 24px 'Dancing Script', cursive";
+    q.fillText("Dear " + P.name + ",", 30, 130);
+
     const msg = P.msg || DEFAULT_MSG; let fs = 17, lines;
-    for (; fs >= 12; fs--) 
-    {
+    for (; fs >= 12; fs--) {                 // lời chúc dài thì tự thu nhỏ chữ cho vừa thiệp
       q.font = "500 " + fs + "px 'Dancing Script', 'Yomogi', cursive"; lines = wrapText(q, msg, 320);
+      if (175 + lines.length * fs * 1.6 <= 450) break;
     }
+    fs = Math.max(fs, 12);
     q.fillStyle = "#4a453f";
     lines.forEach((l, i) => q.fillText(l, 30, 175 + i * fs * 1.6));
 
-    q.fillStyle = "#b8324b"; q.font = "500 20px " + hf + ", cursive"; q.textAlign = "right";
+    q.fillStyle = "#b8324b"; q.font = "500 20px 'Dancing Script', 'Yomogi', cursive"; q.textAlign = "right";
     q.fillText(P.from || DEFAULT_FROM, 350, 175 + lines.length * fs * 1.6 + 25);
 
     const slug = strip(P.name).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -499,6 +521,7 @@ const hints = {
   : "Chọn một rương: bấm vào rương, hoặc ← → rồi Enter (phím 1/2/3).",
   over:  "Bạn đã hết mạng. Bấm Enter hoặc chạm màn hình để thử lại."
 };
+if (PERSONAL) hints.start = "Bấm START để vào lâu đài cuối cùng và nhận quà của riêng bạn.";
 let ls = "";
 reset(); $("ui").style.display = "flex";
 let last = performance.now(), acc = 0;
