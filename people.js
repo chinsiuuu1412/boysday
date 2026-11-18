@@ -70,13 +70,12 @@ const ROSTER = [
   msg: "Nhân ngày 19/11, chúng tớ chúc Đăng Trường luôn mạnh mẽ, quyết đoán và tràn đầy nhiệt huyết ❤️ Cảm ơn tinh thần trách nhiệm của cậu dành cho CLB. Chúc cậu gặt hái thật nhiều điểm cao và luôn là mảnh ghép vững vàng của o365!!"},
   {ban: "Chuyên môn", name: "Nguyễn Ánh Ngọc", token: "5m8yfyg8", photo: "photo/anhngoc.jpg",
   msg: "Ánh Ngọc quá xinh zai và đẳng cấp, quá bá khí, ít khi nào thấy khá bí, vẫn luôn là một ngôi sao, chỉ là ngôi sao này hơi đơn côi ;(("},
-  {ban: "Chuyên môn", name: "Mông Duy Khánh", token: "", photo: "photo/Mông Duy Khánh.jpg", //chưa hiện trên trang btc
+  {ban: "Chuyên môn", name: "Mông Duy Khánh", token: "xqcpzpzv" , photo: "photo/Mông Duy Khánh.jpg", //chưa hiện trên trang btc
   msg: "Phái nữ CLB o365 - HUST chúc Khánh ngày Quốc tế Nam giới thật nhiều niềm vui và kỷ niệm đáng nhớ. Cảm ơn Khánh vì đã cống hiến hết mình cho CLB xuyên suốt 2 nhiệm kỳ vừa qua"},
   {ban: "Chuyên môn", name: "Đỗ Minh Quang", token: "9r0s1t2u", photo: "photo/Đỗ Minh Quang.jpg", //done
   msg: "Nhân ngày 19/11, chúng tớ chúc Minh Quang luôn bản lĩnh, tỏa sáng và giữ vững nhiệt huyết ❤️ Cảm ơn sự cống hiến của cậu dành cho CLB. Chúc cậu đạt mọi mục tiêu trên giảng đường và luôn là mảnh ghép tuyệt vời của o365 !!"},
   {ban: "Chuyên môn", name: "Trần Văn Giáp", token: "0v1w2x3y", photo: "photo/Trần Văn Giáp.jpg", //done
   msg: "Nhân ngày 19/11, chúng tớ chúc Văn Giáp luôn mạnh mẽ, bản lĩnh và tràn đầy nhiệt huyết ❤️ Cảm ơn sự đóng góp tích cực của cậu dành cho CLB. Chúc cậu gặt hái thật nhiều điểm A+ trên giảng đường và luôn là mảnh ghép tuyệt vời của o365 nhé !"},
-  //chưa xóa link Ngô Ánh Dương
 
   {ban: "Tài chính", name: "Lê Nguyễn Đức Long", token: "v4ppkzwu", photo: "photo/duclong.jpg", //done
   msg: "Chúc mừng ngày Quốc tế Nam giới 19/11! Chúc cậu luôn giữ được tinh thần tự do, phóng khoáng và trái tim nhiệt huyết trên mọi hành trình sắp tới. Mong cậu đi đến đâu cũng gặp điều lành, làm việc gì cũng đạt kết quả mỹ mãn, túi tiền luôn rủng rỉnh để thoải mái khám phá những điều mới mẻ!"},  
@@ -113,7 +112,6 @@ const ROSTER = [
   msg: "Chúc Hoàng Quân - một mảnh ghép không thể thiếu của ban Sự Kiện o365 dịp lễ này thật vui vẻ, tích cực, đạt A+ tất cả mônnn!!"},
   {ban: "Sự kiện", name: "Nguyễn Hoàng Tùng", token: "ghi901", photo: "photo/Nguyễn Hoàng Tùng.jpg", //done
   msg: "Mừng ngày 19/11, chúc cậu phong độ luôn vượt trội, học hành tấn tới, tiền bạc phơi phới và lúc nào cũng rạng rỡ nụ cười tươi nhé!"},
-  //chưa xóa link Nguyễn Minh Hiếu cũ
   {ban: "Sự kiện", name: "Nguyễn Quốc Đạt", token: "mno567", photo: "photo/Nguyễn Quốc Đạt.jpg", //done
   msg: "Nhân ngày đặc biệt này, chúc Quốc Đạt luôn vui vẻ, may mắn và thành công trên con đường mình đã chọn. Mong cậu sẽ luôn giữ được nhiệt huyết, không ngừng tiến bộ và có thật nhiều khoảnh khắc đáng nhớ cùng các thành viên O365 nhé!"},
   {ban: "Sự kiện", name: "Nguyễn Trí Hùng", token: "pqr890", photo: "photo/Nguyễn Trí Hùng.jpg", //ảnh chưa load --> đã fix, check lại sau
@@ -122,7 +120,7 @@ const ROSTER = [
   msg: "Chúc Dũng một ngày 19/11 thật vui và trọn vẹn! Chúc cậu luôn khỏe mạnh, lạc quan, học tập thật tốt và gặp được nhiều cơ hội tuyệt vời. Mong rằng những nỗ lực của cậu sẽ luôn được đền đáp bằng những kết quả xứng đáng!"},
   {ban: "Sự kiện", name: "Nguyễn Đình Toàn", token: "vwx456", photo: "photo/Nguyễn Đình Toàn.jpg", //done
   msg: "Happy Men's Day! Chúc Toàn luôn mạnh mẽ, bản lĩnh, học giỏi và gặp nhiều may mắn trên hành trình phía trước. Mong mọi dự định của cậu đều diễn ra thật suôn sẻ và lúc nào cũng có những người bạn tuyệt vời đồng hành!"},
-  {ban: "Sự kiện", name: "Phạm Tuấn Anh", token: "", photo: "photo/Phạm Tuấn Anh.jpg", //chưa hiện link trên trang của btc
+  {ban: "Sự kiện", name: "Phạm Tuấn Anh", token: "v9n9fdw8", photo: "photo/Phạm Tuấn Anh.jpg", //chưa hiện link trên trang của btc
   msg: "Happy Men's Day! Chúc Tuấn Anh luôn giữ vững sự tự tin, bản lĩnh và tinh thần lạc quan nhé. Chúc cậu học tập thuận lợi, công việc trong CLB suôn sẻ và có thật nhiều niềm vui trong hành trình thanh xuân của mình!"},
   {ban: "Sự kiện", name: "Nguyễn Đức Thịnh", token: "yza789", photo: "photo/Nguyễn Đức Thịnh.jpg", //done
   msg: "Nhân dịp 19/11, chúc Thịnh luôn vui vẻ, khỏe mạnh và tràn đầy năng lượng nhé! Chúc cậu không chỉ học tập tốt mà còn có thật nhiều cơ hội để phát triển bản thân, thử sức với những điều mới mẻ và đạt được những thành công đáng tự hào."},
@@ -132,7 +130,7 @@ const ROSTER = [
   msg: "Nhân ngày 19/11, chúc Hữu Anh luôn mạnh khỏe, vui vẻ và giữ được thật nhiều năng lượng tích cực nhé! Chúc cậu học tập thuận lợi, sớm đạt được những mục tiêu mình đặt ra và luôn gặp những điều tốt đẹp."},
   {ban: "Sự kiện", name: "Phạm Tiến Đạt", token: "hij678", photo:"photo/Phạm Tiến Đạt.jpg", //done
   msg: "Chúc Đạt có một ngày 19/11 thật ý nghĩa! Mong cậu luôn giữ được sự nhiệt tình, tinh thần tích cực và phong độ của mình. Chúc cậu sớm chinh phục được những mục tiêu phía trước và có một năm học thật rực rỡ nhé!"},
-  {ban: "Sự kiện", name: "Trần Hải Lâm", token: "", photo: "photo/Trần Hải Lâm.jpg", //chưa hiện link trên trang btc
+  {ban: "Sự kiện", name: "Trần Hải Lâm", token: "psyyetvf", photo: "photo/Trần Hải Lâm.jpg", //chưa hiện link trên trang btc
     msg: "Chúc Lâm thật nhiều sức khỏe và niềm vui. Mong rằng Lâm sẽ có nhiều kỷ niệm đẹp cùng CLB o365 - HUST và tận hưởng những năm ngồi trên giảng đường Đại học của mình!"},
   {ban: "Sự kiện", name: "Vũ Tiến Đại", token: "klm012", photo: "photo/Vũ Tiến Đại.jpg", //done
   msg: "Chúc Tiến Đại luôn giữ vững phong độ, sự tự tin và có một năm học thật bùng nổ. Cảm ơn cậu đã vất vả và đóng góp rất nhiều cho CLB thời gian qua nhé!"},
@@ -156,9 +154,7 @@ const ROSTER = [
   msg: "Nhân ngày 19/11, tớ chúc Tuyển luôn bản lĩnh, tự tin và đạt thật nhiều điểm A+ trên hành trình phía trước. Cảm ơn những đóng góp của cậu cho CLB trong thời gian vừa qua nhé!"},
   {ban: "Sự kiện", name: "Đặng Hào Phát", token: "opq012", photo: "photo/Đặng Hào Phát.jpg", //done
   msg: "Nhân ngày 19/11, tớ chúc Phát luôn vui vẻ, tự tin, bản lĩnh và đạt được nhiều thành tích trên hành trình phía trước. Cảm ơn những đóng góp của cậu cho CLB trong thời gian vừa qua nhé!"},
-//chưa xóa link Bùi Thị Thu Ngân
 
-//chưa xóa link Dương Huy Nhật
   {ban: "Truyền thông", name: "Dương Minh Nhật", token: "uvw678", photo: "photo/Dương Minh Nhật.jpg", //done
   msg: "19/11, chúc Minh Nhật luôn mạnh mẽ, bản lĩnh và đạt được những điều mình mong muốn."},
   {ban: "Truyền thông", name: "Hàn Nguyễn Khôi Nguyên", token: "xyz901", photo: "photo/Hàn Nguyễn Khôi Nguyên.jpg", //done
@@ -167,12 +163,10 @@ const ROSTER = [
   msg: "Chúc Hoàng An luôn nhiều sức khỏe, phong độ ngút ngàn và giật toàn điểm A+ nhé. Cảm ơn những đóng góp nhiệt tình không ngừng nghỉ của cậu cho o365!"},
   {ban: "Truyền thông", name: "Nguyễn Nhật Huy", token: "fze29fbb", photo: "photo/Nguyễn Nhật Huy.jpg", //done
   msg: "Chúc Nhật Huy lúc nào cũng vui vẻ, học giỏi và thuận lợi trong mọi việc. Cảm ơn cậu rất nhiều vì những đóng góp đáng quý cho sự phát triển của o365!"},
-  //chưa xóa link Nguyễn Tuấn An
   {ban: "Truyền thông", name: "Nguyễn Đức Hùng", token: "zg8rvr9b", photo: "photo/Nguyễn Đức Hùng.jpg", //done
   msg: "Nhân dịp 19/11, chúc bạn sức khỏe sung mãn, trí tuệ minh mẫn và gặt hái được nhiều cột mốc rực rỡ trong sự nghiệp. Mong rằng mọi nỗ lực của bạn thời gian qua đều được đền đáp xứng đáng, công việc thuận buồm xuôi gió, tài chính vững vàng và cuộc sống ngày càng viên mãn hơn nữa!"},
   {ban: "Truyền thông", name: "Ngô Đình Đức", token: "2pjufqsb", photo: "photo/Ngô Đình Đức.jpg", //done
   msg: "Nhân ngày 19/11, o365 chúc Đình Đức luôn vững vàng, gặp nhiều may mắn và thành công trên hành trình của mình."},
-  //chưa xóa link Phạm Trí Kiên
   {ban: "Truyền thông", name: "Tạ Thanh Phúc", token: "4fq4g4e7", photo: "photo/Tạ Thanh Phúc.jpg", //done
   msg: "Chúc Thanh Phúc sẽ luôn học siêu suôn sẻ, luôn giữ được sự tự tin và năng động. Cảm ơn cậu vì đã là một mảnh ghép tuyệt vời, đóng góp không nhỏ cho CLB."},
   {ban: "Truyền thông", name: "Lê Hoàng Xuân Việt", token: "qweh28jr", photo: "photo/Lê Hoàng Xuân Việt.jpg", //done

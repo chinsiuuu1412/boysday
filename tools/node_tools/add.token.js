@@ -1,4 +1,4 @@
-// Chạy từ thư mục dự án:  node tools/add-tokens.js
+
 // Thêm "token" cho mỗi người CHƯA có token. Người đã có token được giữ nguyên.
 const fs = require("fs"), crypto = require("crypto");
 const FILE = "people.js";
