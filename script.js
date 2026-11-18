@@ -38,7 +38,7 @@ function phys() {              // trọng lực + chạm sàn của Mario
 }
 const ov = (a, b2, c, d, e, f, g2, h) => a < e + g2 && e < a + c && b2 < f + h && f < b2 + d; // va chạm hình chữ nhật
 function die() { lives--; snd(200, .5, 60); if (lives <= 0) { S = "over"; gameOff(); } else reset(); }
-function win() { S = "win"; fb = []; fl = []; gameOff(); tune([523, 659, 784, 1047, 784, 1047, 1319]); }
+function win() { S = "win"; fb = []; fl = []; tune([523, 659, 784, 1047, 784, 1047, 1319]); fade(gm, .2);}
 function begin() {
   if (AC && AC.state === "suspended") AC.resume();
   lives = 3; reset(); S = "play";
@@ -106,7 +106,8 @@ function upd() {
 function open(i) {
   if (co >= 0) return;
   co = i; sel = i; ct = 0;
-  musicOn();
+  gameOff();                                      // nhạc game nhỏ dần rồi tắt
+  musicOn();                                      // bài của rương vào dần
   snd(500, .2, 1000); tune([784, 988, 1175, 1568]);
   for (let k = 0; k < 28; k++) coins.push({x: CX[i] + 16, y: GY - 16, vx: (Math.random() - .5) * 3, vy: -Math.random() * 4 - 1});
 }
