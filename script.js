@@ -388,7 +388,7 @@ function playTrack(file, vol) {
   mus.currentTime = 0;
   if (volOK) mus.volume = 0;
   const p = mus.play();
-  if (p) p.then(() => fadeTo(vol)).catch(() => {});
+  if (p) p.then(() => fadeTo(vol)).catch(e => alert("Nhạc: " + e.name + " " + e.message));
 }
 function stopTrack() { fadeTo(0, () => mus.pause()); }
 
