@@ -70,7 +70,7 @@ const ROSTER = [
   msg: "Nhân ngày 19/11, chúng tớ chúc Đăng Trường luôn mạnh mẽ, quyết đoán và tràn đầy nhiệt huyết ❤️ Cảm ơn tinh thần trách nhiệm của cậu dành cho CLB. Chúc cậu gặt hái thật nhiều điểm cao và luôn là mảnh ghép vững vàng của o365!!"},
   {ban: "Chuyên môn", name: "Nguyễn Ánh Ngọc", token: "5m8yfyg8", photo: "photo/anhngoc.jpg",
   msg: "Ánh Ngọc quá xinh zai và đẳng cấp, quá bá khí, ít khi nào thấy khá bí, vẫn luôn là một ngôi sao, chỉ là ngôi sao này hơi đơn côi ;(("},
-  {ban: "Chuyên môn", name: "Mông Duy Khánh", token: "xqcpzpzv" , photo: "photo/Mông Duy Khánh.jpg", //chưa hiện trên trang btc
+  {ban: "Chuyên môn", name: "Mông Duy Khánh", token: "xqcpzpzv" , photo: "photo/Mông Duy Khánh.jpg", //done
   msg: "Phái nữ CLB o365 - HUST chúc Khánh ngày Quốc tế Nam giới thật nhiều niềm vui và kỷ niệm đáng nhớ. Cảm ơn Khánh vì đã cống hiến hết mình cho CLB xuyên suốt 2 nhiệm kỳ vừa qua"},
   {ban: "Chuyên môn", name: "Đỗ Minh Quang", token: "9r0s1t2u", photo: "photo/Đỗ Minh Quang.jpg", //done
   msg: "Nhân ngày 19/11, chúng tớ chúc Minh Quang luôn bản lĩnh, tỏa sáng và giữ vững nhiệt huyết ❤️ Cảm ơn sự cống hiến của cậu dành cho CLB. Chúc cậu đạt mọi mục tiêu trên giảng đường và luôn là mảnh ghép tuyệt vời của o365 !!"},
@@ -114,13 +114,13 @@ const ROSTER = [
   msg: "Mừng ngày 19/11, chúc cậu phong độ luôn vượt trội, học hành tấn tới, tiền bạc phơi phới và lúc nào cũng rạng rỡ nụ cười tươi nhé!"},
   {ban: "Sự kiện", name: "Nguyễn Quốc Đạt", token: "mno567", photo: "photo/Nguyễn Quốc Đạt.jpg", //done
   msg: "Nhân ngày đặc biệt này, chúc Quốc Đạt luôn vui vẻ, may mắn và thành công trên con đường mình đã chọn. Mong cậu sẽ luôn giữ được nhiệt huyết, không ngừng tiến bộ và có thật nhiều khoảnh khắc đáng nhớ cùng các thành viên O365 nhé!"},
-  {ban: "Sự kiện", name: "Nguyễn Trí Hùng", token: "pqr890", photo: "photo/Nguyễn Trí Hùng.jpg", //ảnh chưa load --> đã fix, check lại sau
+  {ban: "Sự kiện", name: "Nguyễn Trí Hùng", token: "pqr890", photo: "photo/Nguyễn Trí Hùng.jpg", //done
   msg: "Gửi Hùng một lời chúc thật nhiều niềm vui nhân ngày 19/11! Chúc cậu luôn mạnh khỏe, tự tin, gặp nhiều thuận lợi trong học tập cũng như cuộc sống. Hy vọng mỗi ngày trôi qua đều mang đến cho cậu thêm nhiều trải nghiệm thú vị!"},
   {ban: "Sự kiện", name: "Nguyễn Việt Dũng", token: "stu123", photo: "photo/Nguyễn Việt Dũng.jpg", //done
   msg: "Chúc Dũng một ngày 19/11 thật vui và trọn vẹn! Chúc cậu luôn khỏe mạnh, lạc quan, học tập thật tốt và gặp được nhiều cơ hội tuyệt vời. Mong rằng những nỗ lực của cậu sẽ luôn được đền đáp bằng những kết quả xứng đáng!"},
   {ban: "Sự kiện", name: "Nguyễn Đình Toàn", token: "vwx456", photo: "photo/Nguyễn Đình Toàn.jpg", //done
   msg: "Happy Men's Day! Chúc Toàn luôn mạnh mẽ, bản lĩnh, học giỏi và gặp nhiều may mắn trên hành trình phía trước. Mong mọi dự định của cậu đều diễn ra thật suôn sẻ và lúc nào cũng có những người bạn tuyệt vời đồng hành!"},
-  {ban: "Sự kiện", name: "Phạm Tuấn Anh", token: "v9n9fdw8", photo: "photo/Phạm Tuấn Anh.jpg", //chưa hiện link trên trang của btc
+  {ban: "Sự kiện", name: "Phạm Tuấn Anh", token: "v9n9fdw8", photo: "photo/Phạm Tuấn Anh.jpg", //done
   msg: "Happy Men's Day! Chúc Tuấn Anh luôn giữ vững sự tự tin, bản lĩnh và tinh thần lạc quan nhé. Chúc cậu học tập thuận lợi, công việc trong CLB suôn sẻ và có thật nhiều niềm vui trong hành trình thanh xuân của mình!"},
   {ban: "Sự kiện", name: "Nguyễn Đức Thịnh", token: "yza789", photo: "photo/Nguyễn Đức Thịnh.jpg", //done
   msg: "Nhân dịp 19/11, chúc Thịnh luôn vui vẻ, khỏe mạnh và tràn đầy năng lượng nhé! Chúc cậu không chỉ học tập tốt mà còn có thật nhiều cơ hội để phát triển bản thân, thử sức với những điều mới mẻ và đạt được những thành công đáng tự hào."},
@@ -130,7 +130,7 @@ const ROSTER = [
   msg: "Nhân ngày 19/11, chúc Hữu Anh luôn mạnh khỏe, vui vẻ và giữ được thật nhiều năng lượng tích cực nhé! Chúc cậu học tập thuận lợi, sớm đạt được những mục tiêu mình đặt ra và luôn gặp những điều tốt đẹp."},
   {ban: "Sự kiện", name: "Phạm Tiến Đạt", token: "hij678", photo:"photo/Phạm Tiến Đạt.jpg", //done
   msg: "Chúc Đạt có một ngày 19/11 thật ý nghĩa! Mong cậu luôn giữ được sự nhiệt tình, tinh thần tích cực và phong độ của mình. Chúc cậu sớm chinh phục được những mục tiêu phía trước và có một năm học thật rực rỡ nhé!"},
-  {ban: "Sự kiện", name: "Trần Hải Lâm", token: "psyyetvf", photo: "photo/Trần Hải Lâm.jpg", //chưa hiện link trên trang btc
+  {ban: "Sự kiện", name: "Trần Hải Lâm", token: "psyyetvf", photo: "photo/Trần Hải Lâm.jpg", //done
     msg: "Chúc Lâm thật nhiều sức khỏe và niềm vui. Mong rằng Lâm sẽ có nhiều kỷ niệm đẹp cùng CLB o365 - HUST và tận hưởng những năm ngồi trên giảng đường Đại học của mình!"},
   {ban: "Sự kiện", name: "Vũ Tiến Đại", token: "klm012", photo: "photo/Vũ Tiến Đại.jpg", //done
   msg: "Chúc Tiến Đại luôn giữ vững phong độ, sự tự tin và có một năm học thật bùng nổ. Cảm ơn cậu đã vất vả và đóng góp rất nhiều cho CLB thời gian qua nhé!"},
@@ -175,7 +175,7 @@ const ROSTER = [
   msg: "Mười chín tháng mười một đã sang, chúc cậu phong độ vững vàng, GPA cao vút thênh thang, ví tiền lúc nào cũng rộn ràng niềm vui nhé!"},
   {ban: "Truyền thông", name: "Nguyễn Phú Trọng", token: "3e4tjwak", photo: "photo/Nguyễn Phú Trọng.jpg", //done
   msg: "Chúc cậu 19/11 thật đỉnh cao, sức khỏe dồi dào xiết bao, học chơi đều mượt ngọt ngào và may mắn tự tìm đến chẳng cần mời chào!"},
-  {ban: "Truyền thông", name: "Trần Việt Hoàng", token: "53zv73pn", photo: "photo/Trần Việt Hoàng.jpg", //chưa hiện ảnh --> đã fix, chưa check lại
+  {ban: "Truyền thông", name: "Trần Việt Hoàng", token: "53zv73pn", photo: "photo/Trần Việt Hoàng.jpg", //done
   msg: "Chúc chàng trai o365 một ngày lễ thật tuyệt vời, lúc nào cũng điển trai rạng ngời, làm gì cũng thuận lợi đến nơi và may mắn theo chân suốt đời nha!"},
   {ban: "Truyền thông", name: "Lê Thanh Bình", token: "4g7j3f8k", photo: "photo/Lê Thanh Bình.jpg", //done
   msg: "Chúc mừng ngày Quốc tế Nam giới 19/11 của bạn! Giữa những guồng quay bận rộn của công việc và cuộc sống, mong bạn luôn dành cho mình những khoảng lặng bình yên để nghỉ ngơi và tận hưởng. Chúc bạn sức khỏe dồi dào, tinh thần lạc quan, mọi việc suôn sẻ và luôn gặp nhiều may mắn!"},
