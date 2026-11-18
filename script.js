@@ -384,18 +384,20 @@ function fadeTo(to, done) {
 }
 function playTrack(file, vol) {
   clearInterval(mus._f);
-  if (curTrack !== file) { mus.src = file; curTrack = file; }          // đổi bài
+  if (curTrack !== file) { mus.src = file; curTrack = file; mus.load(); }   // load() giúp iPhone nạp bài mới
   mus.currentTime = 0;
   if (volOK) mus.volume = 0;
   const p = mus.play();
-  if (p) p.then(() => fadeTo(vol)).catch(e => alert("Nhạc: " + e.name + " " + e.message));
+  if (!p) return Promise.resolve(true);
+  return p.then(() => { fadeTo(vol); return true; }).catch(() => false);   // false = bị chặn
 }
 function stopTrack() { fadeTo(0, () => mus.pause()); }
 
-function gameOn()   { playTrack(TRACK_GAME, VOL_GAME); }               // nhạc kịch tính khi chơi
+let chestOK = false;                       // bài của rương đã phát được chưa
+function gameOn()   { chestOK = false; playTrack(TRACK_GAME, VOL_GAME); }
 function gameOff()  { stopTrack(); }
-function musicOn()  { fadeTo(0, () => playTrack(TRACK_CHEST, VOL_CHEST)); }   // nhạc game nhỏ dần rồi sang bài của rương
-function musicOff() { stopTrack(); }
+function musicOn()  { fadeTo(0, () => { playTrack(TRACK_CHEST, VOL_CHEST).then(ok => { chestOK = ok; }); }); }
+function musicOff() { chestOK = false; stopTrack(); }
 function unlockAudio() {}                                              // không cần nữa (giữ để begin() không lỗi)
 
 muteBtn.onclick = () => { mus.muted = !mus.muted; muteBtn.textContent = mus.muted ? "🔇" : "🔊"; };
@@ -404,6 +406,7 @@ muteBtn.onclick = () => { mus.muted = !mus.muted; muteBtn.textContent = mus.mute
 // 1. Bìa -> nắp phong bì mở, thư nhô lên, rồi thư trượt ra
 cardCover.addEventListener("click", () => {
   if (cardBox.classList.contains("state-open")) return;
+  if (!chestOK) musicOn();      // dự phòng: nếu lúc mở rương iPhone chặn nhạc thì bật ở cú chạm này
   cardBox.classList.add("state-open");
   openT = setTimeout(() => cardBox.classList.add("state-half"), 1300);
 });
