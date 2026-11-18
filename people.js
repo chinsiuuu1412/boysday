@@ -76,7 +76,8 @@ const ROSTER = [
   msg: "Nhân ngày 19/11, chúng tớ chúc Minh Quang luôn bản lĩnh, tỏa sáng và giữ vững nhiệt huyết ❤️ Cảm ơn sự cống hiến của cậu dành cho CLB. Chúc cậu đạt mọi mục tiêu trên giảng đường và luôn là mảnh ghép tuyệt vời của o365 !!"},
   {ban: "Chuyên môn", name: "Trần Văn Giáp", token: "0v1w2x3y", photo: "photo/Trần Văn Giáp.jpg", //done
   msg: "Nhân ngày 19/11, chúng tớ chúc Văn Giáp luôn mạnh mẽ, bản lĩnh và tràn đầy nhiệt huyết ❤️ Cảm ơn sự đóng góp tích cực của cậu dành cho CLB. Chúc cậu gặt hái thật nhiều điểm A+ trên giảng đường và luôn là mảnh ghép tuyệt vời của o365 nhé !"},
-  {ban: "Chuyên môn", name: "Ngô Ánh Dương", token: "", photo: "photo/Ngô Ánh Dương.jpg", msg: "Hello"},
+  {ban: "Chuyên môn", name: "Ngô Ánh Dương", token: "jteyfz32", photo: "photo/Ngô Ánh Dương.jpg",
+  msg: "Dear Ngôi sao cô đơn độc lẻ loi,\n\nAura đầy mình nhưng độc thân, bá khí đầy mình đi dạy KNM (hoặc là k).\n\nChúc Ngôi sao không khá bí khi dùng VLOOKUP, luôn đẹp troai nhó."},
 
   {ban: "Tài chính", name: "Lê Nguyễn Đức Long", token: "v4ppkzwu", photo: "photo/duclong.jpg", //done
   msg: "Chúc mừng ngày Quốc tế Nam giới 19/11! Chúc cậu luôn giữ được tinh thần tự do, phóng khoáng và trái tim nhiệt huyết trên mọi hành trình sắp tới. Mong cậu đi đến đâu cũng gặp điều lành, làm việc gì cũng đạt kết quả mỹ mãn, túi tiền luôn rủng rỉnh để thoải mái khám phá những điều mới mẻ!"},  
@@ -155,7 +156,8 @@ const ROSTER = [
   msg: "Nhân ngày 19/11, tớ chúc Tuyển luôn bản lĩnh, tự tin và đạt thật nhiều điểm A+ trên hành trình phía trước. Cảm ơn những đóng góp của cậu cho CLB trong thời gian vừa qua nhé!"},
   {ban: "Sự kiện", name: "Đặng Hào Phát", token: "opq012", photo: "photo/Đặng Hào Phát.jpg", //done
   msg: "Nhân ngày 19/11, tớ chúc Phát luôn vui vẻ, tự tin, bản lĩnh và đạt được nhiều thành tích trên hành trình phía trước. Cảm ơn những đóng góp của cậu cho CLB trong thời gian vừa qua nhé!"},
-  {ban: "Sự kiện", name: "Bùi Thị Thu Ngân", token: "", photo: "photo/Bùi Thị Thu Ngân.jpg", msg: "Hello"},
+  {ban: "Sự kiện", name: "Bùi Thị Thu Ngân", token: "5gmj23me", photo: "photo/Bùi Thị Thu Ngân.jpg", 
+  msg: "Gửi cô gái xinh đẹp của o365 - HUST!\nCô nàng với aura rạng ngời, rất mạnh, luôn tích cực và tỏa sáng.\nRất ngầu, rất ngầu và rất ngầu."},
 
   {ban: "Truyền thông", name: "Dương Minh Nhật", token: "uvw678", photo: "photo/Dương Minh Nhật.jpg", //done
   msg: "19/11, chúc Minh Nhật luôn mạnh mẽ, bản lĩnh và đạt được những điều mình mong muốn."},
