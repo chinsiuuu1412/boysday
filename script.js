@@ -38,7 +38,7 @@ function phys() {              // trọng lực + chạm sàn của Mario
 }
 const ov = (a, b2, c, d, e, f, g2, h) => a < e + g2 && e < a + c && b2 < f + h && f < b2 + d; // va chạm hình chữ nhật
 function die() { lives--; snd(200, .5, 60); if (lives <= 0) { S = "over"; gameOff(); } else reset(); }
-function win() { S = "win"; fb = []; fl = []; tune([523, 659, 784, 1047, 784, 1047, 1319]); fade(gm, .2);}
+function win() { S = "win"; fb = []; fl = []; tune([523, 659, 784, 1047, 784, 1047, 1319]); fadeTo(.2);}
 function begin() {
   if (AC && AC.state === "suspended") AC.resume();
   lives = 3; reset(); S = "play";
@@ -106,8 +106,7 @@ function upd() {
 function open(i) {
   if (co >= 0) return;
   co = i; sel = i; ct = 0;
-  gameOff();                                      // nhạc game nhỏ dần rồi tắt
-  musicOn();                                      // bài của rương vào dần
+  musicOn();
   snd(500, .2, 1000); tune([784, 988, 1175, 1568]);
   for (let k = 0; k < 28; k++) coins.push({x: CX[i] + 16, y: GY - 16, vx: (Math.random() - .5) * 3, vy: -Math.random() * 4 - 1});
 }
@@ -245,7 +244,7 @@ document.querySelectorAll("#pad button").forEach(bt => {
 });
 
 // Chạm vào canvas: chơi lại (game over) hoặc chọn rương
-C.addEventListener("pointerdown", e => {
+C.addEventListener("click", e => {
   if (S === "over") { begin(); return; }
   if (S === "chest" && co < 0) {
     let r = C.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * W, y = (e.clientY - r.top) / r.height * H;
@@ -367,35 +366,39 @@ function showReward() {                       // gọi khi rương mở xong
   fitCard();
 }
 
-// ====== NHẠC: gm = nhạc game, bgm = bài khi mở rương và thiệp ======
-const bgm = $("bgMusic"), gm = $("gameMusic"), muteBtn = $("muteBtn");
-let openT, unlocked = false;
+// ====== NHẠC: một thẻ <audio> dùng chung, đổi bài bằng src (chạy được trên iOS và Android) ======
+const mus = $("music"), muteBtn = $("muteBtn");
+const TRACK_GAME = "nhạc-game.mp3", TRACK_CHEST = "nhạc-thiệp.mp3";   // tên 2 file nhạc của bạn
+const VOL_GAME = .45, VOL_CHEST = .6;                                   // âm lượng 0..1
+let openT, curTrack = "";
 const volOK = (() => { const a = new Audio(); a.volume = .5; return a.volume === .5; })();   // iPhone không cho chỉnh âm lượng
 
-function fade(a, to, done) {
-  clearInterval(a._f);
+function fadeTo(to, done) {
+  clearInterval(mus._f);
   if (!volOK) { if (done) done(); return; }
-  a._f = setInterval(() => {
-    const d = to - a.volume;
-    if (Math.abs(d) < .03) { a.volume = to; clearInterval(a._f); if (done) done(); }
-    else a.volume = Math.min(1, Math.max(0, a.volume + Math.sign(d) * .03));
+  mus._f = setInterval(() => {
+    const d = to - mus.volume;
+    if (Math.abs(d) < .03) { mus.volume = to; clearInterval(mus._f); if (done) done(); }
+    else mus.volume = Math.min(1, Math.max(0, mus.volume + Math.sign(d) * .03));
   }, 50);
 }
-function play(a, vol) {
-  clearInterval(a._f); a.currentTime = 0; if (volOK) a.volume = 0;
-  return a.play().then(() => fade(a, vol)).catch(() => {});
+function playTrack(file, vol) {
+  clearInterval(mus._f);
+  if (curTrack !== file) { mus.src = file; curTrack = file; }          // đổi bài
+  mus.currentTime = 0;
+  if (volOK) mus.volume = 0;
+  const p = mus.play();
+  if (p) p.then(() => fadeTo(vol)).catch(() => {});
 }
-function stop(a) { fade(a, 0, () => a.pause()); }
-function musicOn()  { play(bgm, .6); }     // bài sau khi mở rương (chỉnh âm lượng: .6)
-function musicOff() { stop(bgm); }
-function gameOn()   { play(gm, .45); }     // nhạc kịch tính khi chơi (chỉnh âm lượng: .45)
-function gameOff()  { stop(gm); }
-function unlockAudio() {                    // lần chạm đầu tiên: "mở khóa" bài thứ hai để iPhone cho phép phát sau này
-  if (unlocked) return; unlocked = true;
-  const m = bgm.muted; bgm.muted = true;
-  bgm.play().then(() => { bgm.pause(); bgm.currentTime = 0; bgm.muted = m; }).catch(() => { bgm.muted = m; });
-}
-muteBtn.onclick = () => { const m = !bgm.muted; bgm.muted = gm.muted = m; muteBtn.textContent = m ? "🔇" : "🔊"; };
+function stopTrack() { fadeTo(0, () => mus.pause()); }
+
+function gameOn()   { playTrack(TRACK_GAME, VOL_GAME); }               // nhạc kịch tính khi chơi
+function gameOff()  { stopTrack(); }
+function musicOn()  { fadeTo(0, () => playTrack(TRACK_CHEST, VOL_CHEST)); }   // nhạc game nhỏ dần rồi sang bài của rương
+function musicOff() { stopTrack(); }
+function unlockAudio() {}                                              // không cần nữa (giữ để begin() không lỗi)
+
+muteBtn.onclick = () => { mus.muted = !mus.muted; muteBtn.textContent = mus.muted ? "🔇" : "🔊"; };
 
 // ====== MỞ / ĐÓNG THIỆP ======
 // 1. Bìa -> nắp phong bì mở, thư nhô lên, rồi thư trượt ra
