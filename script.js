@@ -366,41 +366,72 @@ function showReward() {                       // gọi khi rương mở xong
   fitCard();
 }
 
-// ====== NHẠC: một thẻ <audio> dùng chung, đổi bài bằng src (chạy được trên iOS và Android) ======
+// ====== NHẠC: hai kênh chồng nhau 1 giây; Web Audio chỉnh âm lượng trên iOS ======
 const mus = $("music"), muteBtn = $("muteBtn");
+const musicChannels = [mus, new Audio()], musicGains = new Map();
+musicChannels.forEach(audio => {
+  audio.loop = true;
+  if (AC) {
+    const source = AC.createMediaElementSource(audio), gain = AC.createGain();
+    gain.gain.value = 0;
+    source.connect(gain); gain.connect(AC.destination);
+    musicGains.set(audio, gain);
+  }
+});
 const TRACK_GAME = "nhạc-game.mp3", TRACK_CHEST = "nhạc-thiệp.mp3";   // tên 2 file nhạc của bạn
 const VOL_GAME = .45, VOL_CHEST = .6;                                   // âm lượng 0..1
-let openT, curTrack = "";
-const volOK = (() => { const a = new Audio(); a.volume = .5; return a.volume === .5; })();   // iPhone không cho chỉnh âm lượng
+let openT, curTrack = "", activeMus = mus;
+const volOK = (() => { const a = new Audio(); a.volume = .5; return a.volume === .5; })();
 
-function fadeTo(to, done) {
-  clearInterval(mus._f);
-  if (!volOK) { if (done) done(); return; }
-  mus._f = setInterval(() => {
-    const d = to - mus.volume;
-    if (Math.abs(d) < .03) { mus.volume = to; clearInterval(mus._f); if (done) done(); }
-    else mus.volume = Math.min(1, Math.max(0, mus.volume + Math.sign(d) * .03));
+function musicVolume(audio, value) {
+  const gain = musicGains.get(audio);
+  if (value === undefined) return gain ? gain.gain.value : audio.volume;
+  if (gain) gain.gain.value = value;
+  else if (volOK) audio.volume = value;
+}
+function fadeTo(to, done, audio = activeMus) {
+  clearInterval(audio._f);
+  if (!musicGains.has(audio) && !volOK) { if (done) done(); return; }
+  const from = musicVolume(audio);
+  let step = 0;
+  audio._f = setInterval(() => {
+    musicVolume(audio, from + (to - from) * (++step / 20));
+    if (step >= 20) { clearInterval(audio._f); if (done) done(); }
   }, 50);
 }
 function playTrack(file, vol) {
-  clearInterval(mus._f);
-  if (curTrack !== file) { mus.src = file; curTrack = file; mus.load(); }   // load() giúp iPhone nạp bài mới
-  mus.currentTime = 0;
-  if (volOK) mus.volume = 0;
-  const p = mus.play();
-  if (!p) return Promise.resolve(true);
-  return p.then(() => { fadeTo(vol); return true; }).catch(() => false);   // false = bị chặn
+  const previous = activeMus;
+  const next = !curTrack || curTrack === file ? previous : musicChannels.find(audio => audio !== previous);
+  clearInterval(next._f);
+  if (curTrack !== file) { next.src = file; next.load(); }
+  next.currentTime = 0;
+  musicVolume(next, 0);
+  // Gọi play ngay trong cú chạm, trước mọi timer hoặc await.
+  const p = next.play();
+  return Promise.resolve(p).then(() => {
+    activeMus = next; curTrack = file;
+    fadeTo(vol, null, next);
+    if (previous !== next) fadeTo(0, () => previous.pause(), previous);
+    return true;
+  }).catch(error => {
+    console.warn("Không phát được nhạc:", file, error);
+    return false;
+  });
 }
-function stopTrack() { fadeTo(0, () => mus.pause()); }
+function stopTrack() { musicChannels.forEach(audio => fadeTo(0, () => audio.pause(), audio)); }
 
 let chestOK = false;                       // bài của rương đã phát được chưa
 function gameOn()   { chestOK = false; playTrack(TRACK_GAME, VOL_GAME); }
 function gameOff()  { stopTrack(); }
-function musicOn()  { fadeTo(0, () => { playTrack(TRACK_CHEST, VOL_CHEST).then(ok => { chestOK = ok; }); }); }
+function musicOn()  { playTrack(TRACK_CHEST, VOL_CHEST).then(ok => { chestOK = ok; }); }
 function musicOff() { chestOK = false; stopTrack(); }
 function unlockAudio() {}                                              // không cần nữa (giữ để begin() không lỗi)
 
-muteBtn.onclick = () => { mus.muted = !mus.muted; muteBtn.textContent = mus.muted ? "🔇" : "🔊"; };
+muteBtn.onclick = () => {
+  const muted = !mus.muted;
+  musicChannels.forEach(audio => audio.muted = muted);
+  muteBtn.textContent = muted ? "🔇" : "🔊";
+};
 
 // ====== MỞ / ĐÓNG THIỆP ======
 // 1. Bìa -> nắp phong bì mở, thư nhô lên, rồi thư trượt ra
