@@ -183,5 +183,6 @@ const ROSTER = [
   msg: "Chúc chàng trai o365 một ngày lễ thật tuyệt vời, lúc nào cũng điển trai rạng ngời, làm gì cũng thuận lợi đến nơi và may mắn theo chân suốt đời nha!"},
   {ban: "Truyền thông", name: "Lê Thanh Bình", token: "4g7j3f8k", photo: "photo/Lê Thanh Bình.jpg", //done
   msg: "Chúc mừng ngày Quốc tế Nam giới 19/11 của bạn! Giữa những guồng quay bận rộn của công việc và cuộc sống, mong bạn luôn dành cho mình những khoảng lặng bình yên để nghỉ ngơi và tận hưởng. Chúc bạn sức khỏe dồi dào, tinh thần lạc quan, mọi việc suôn sẻ và luôn gặp nhiều may mắn!"},
-
+  {ban: "Truyền thông", name: "Phạm Trí Kiên", token: "m4f2b2r2", photo: "photo/Phạm Trí Kiên.jpg",
+  msg: "Chúc Kiên luôn hạnh phúc và thành công! Mong rằng trên chặng đường sắp tới, Kiên sẽ luôn chân cứng đá mềm, đường dài không mỏi, vững vàng vượt qua mọi khó khăn, thử thách và chinh phục được tất cả những điều mà mình mong muốn. Chúc Kiên luôn giữ vững niềm tin, nhiệt huyết và gặp thật nhiều may mắn trên hành trình phía trước! Rất cảm ơn Kiên vì đã là một phần của o365 - HUST"},
 ];
